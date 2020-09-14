@@ -32,7 +32,7 @@ stop_time = 0
 
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.settimeout(3.0)
+s.settimeout(2.0)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
 PORT_rt = 2333  # 高实时控制数据端口 速度 位置 电流等高实时数据
@@ -142,7 +142,7 @@ def AIOSGetRoot(server_ip):
 
 # AIOS 保存配置
 # 参数：包括设备IP
-def AIOSSaveConfig(server_ip):
+def AIOSaveConfig(server_ip):
     data = {
         'method' : 'SET',
         'reqTarget' : '/',
@@ -383,7 +383,7 @@ def setLinearCount(set_linear_count, server_ip, motor_number):
 # AIOS 获取执行器PID控制器参数
 # 参数：包括设备IP 电机号
 # 以元组方式返回 控制模式 位置比例增益 速度比例增益 速度积分增益 速度限制 速度限制容差
-def getPIDControllerConfig(server_ip, motor_number):
+def getMotionCtrlConfig(server_ip, motor_number):
     data = {
         'method' : 'GET',
         'reqTarget' : '/m0/controller/config',
@@ -407,7 +407,7 @@ def getPIDControllerConfig(server_ip, motor_number):
 # AIOS 设置执行器PID控制器参数
 # 参数：位置比例增益 速度比例增益 速度积分增益 速度限制 速度限制容差
 # 返回 成功或失败
-def setPIDControllerConfig(dict, server_ip, motor_number):
+def setMotionCtrlConfig(dict, server_ip, motor_number):
     data = {
         'method' : 'SET',
         'reqTarget' : '/m0/controller/config',
@@ -737,6 +737,8 @@ def receive_func():
 def broadcast_func():
     timeout = 3
     found_server = False
+    address_list = []
+    i = 0
 
     s.sendto('Is any AIOS server here?'.encode('utf-8'), (network, PORT_srv))
     print('\n')
@@ -745,13 +747,18 @@ def broadcast_func():
     while True:
         try:
             data, address = s.recvfrom(1024)
+            address_list.append(address[0])
             print('Server received from {}:{}'.format(address, data.decode('utf-8')))
             json_obj = json.loads(data.decode('utf-8'))
             found_server = True
         except socket.timeout: # fail after 1 second of no activity
             if found_server:
-                print('lookuping Finished! \n')
-                return True
+                print('\n')
+                print('found servers')
+                print(address_list)
+                print('lookup Finished! \n')
+                time.sleep(2)
+                return address_list
             else:
                 print("Do not have any server! [Timeout] \n")
                 return False

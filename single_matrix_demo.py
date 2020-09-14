@@ -4,7 +4,15 @@ import threading
 import numpy as np
 import json
 
+# Server_IP_list = ['192.168.1.112','192.168.1.164','192.168.1.190']
 Server_IP_list = []
+# Server_IP_list = ['192.168.1.169','192.168.1.125','192.168.1.141']
+# Server_IP_list = ['192.168.8.156','192.168.8.157','192.168.8.163']
+# Server_IP_list = ['192.168.1.102','192.168.1.104']
+# Server_IP_list = ['192.168.1.120']
+# Server_IP_list = ['39.97.214.191']
+# Server_IP_list = ['123.57.14.125']
+# Server_IP_list = ['192.168.1.190']
 
 pos_list_1 = [1000, 2000, 3000, 5000, 2000, 6000, 10000, 0, 5000, -10000, 15000, 20000, 0]
 delay_list_1 = [0.3, 0.3, 0.3, 0.6, 0.6, 0.6, 1, 1, 1, 2, 2, 2, 2]
@@ -27,6 +35,13 @@ def main():
         #         aios.receive_func()
         #     print((time.time() - start)*1000)
         #     time.sleep(0.005)
+        for i in range(5):
+            for i in range(len(Server_IP_list)):
+                cvp = aios.getCVP(Server_IP_list[i], 1)
+                print("Position = %.2f, Velocity = %.0f, Current = %.4f" %(cvp[0], cvp[1], cvp[2]))
+
+            time.sleep(0.02)
+        print('\n')
 
         cali_flag = False
         for i in range(len(Server_IP_list)):
@@ -34,14 +49,6 @@ def main():
                 aios.encoderOffsetCalibration(Server_IP_list[i], 1)
                 cali_flag = True
 
-        if cali_flag:
-            time.sleep(10)
-
-        cali_flag = False
-        for i in range(len(Server_IP_list)):
-            if (not aios.encoderIsReady(Server_IP_list[i], 0)):
-                aios.encoderOffsetCalibration(Server_IP_list[i], 0)
-                cali_flag = True
 
         print('\n')
 
@@ -55,7 +62,6 @@ def main():
 
             for i in range(len(Server_IP_list)):
                 aios.getMotionCtrlConfig(Server_IP_list[0], 1)
-                aios.getMotionCtrlConfig(Server_IP_list[0], 0)
             print('\n')
             # aios.setTrapTraj(320000, 320000, 200000, Server_IP_list[0], 0)
             # aios.getTrapTraj(Server_IP_list[0], 0)
@@ -85,7 +91,6 @@ def main():
 
             for i in range(len(Server_IP_list)):
                 enableSuccess = aios.AIOSEnable(Server_IP_list[i], 1)
-                enableSuccess = aios.AIOSEnable(Server_IP_list[i], 0)
             print('\n')
 
             if enableSuccess:
@@ -94,7 +99,6 @@ def main():
 
                 for i in range(len(Server_IP_list)):
                     aios.trapezoidalMove(0, True, Server_IP_list[i], 1)
-                    aios.trapezoidalMove(0, True, Server_IP_list[i], 0)
                 time.sleep( 2 )
 
 
@@ -102,7 +106,6 @@ def main():
                     start = time.time()
                     for j in range(len(Server_IP_list)):
                         aios.trapezoidalMove(pos_list_1[i], True, Server_IP_list[j], 1)
-                        aios.trapezoidalMove(pos_list_1[i], True, Server_IP_list[j], 0)
                     print((time.time() - start)*1000)
                     time.sleep( delay_list_1[i] )
 
@@ -111,8 +114,6 @@ def main():
                     start = time.time()
                     for j in range(len(Server_IP_list)):
                         aios.trapezoidalMove(pos_list_2[i], True, Server_IP_list[j], 1)
-                        time.sleep( 0.2 )
-                        aios.trapezoidalMove(pos_list_2[i], True, Server_IP_list[j], 0)
                         time.sleep( 0.2 )
                     print((time.time() - start)*1000)
                     time.sleep( delay_list_2[i] )
@@ -123,23 +124,19 @@ def main():
                     print(pos)
                     for j in range(len(Server_IP_list)):
                         # aios.setPosition(pos, 0, 0, False, Server_IP_list[j], 1)
-                        # aios.setPosition(pos, 0, 0, False, Server_IP_list[j], 0)
                         aios.trapezoidalMove(pos, False, Server_IP_list[j], 1)
-                        aios.trapezoidalMove(pos, False, Server_IP_list[j], 0)
                     print(time.time() - start)
                     time.sleep(0.01)
 
 
                 for i in range(len(Server_IP_list)):
                     aios.trapezoidalMove(2000, True, Server_IP_list[i], 1)
-                    aios.trapezoidalMove(2000, True, Server_IP_list[i], 0)
                 time.sleep( 1 )
 
 
 
                 for i in range(len(Server_IP_list)):
                     aios.AIOSDisable(Server_IP_list[i], 1)
-                    aios.AIOSDisable(Server_IP_list[i], 0)
 
 
 
