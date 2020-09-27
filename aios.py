@@ -757,7 +757,7 @@ def setCurrent(current, reply_enable,server_ip, motor_number):
 
 def dum_func(server_ip):
     data = {
-        'method' : 'GET',
+        'method' : 'XET',
         'reqTarget' : '/',
     }
     json_str = json.dumps(data)
