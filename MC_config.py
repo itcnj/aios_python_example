@@ -14,23 +14,28 @@ def main():
 
         for i in range(len(Server_IP_list)):
             aios.AIOSGetRoot(Server_IP_list[i])
+        print('\n')
 
-
-        aios.getMotionCtrlConfig(Server_IP_list[0], 1)
+        for i in range(len(Server_IP_list)):
+            aios.getMotionCtrlConfig(Server_IP_list[i], 1)
+        print('\n')
 
         dict = {
-            'pos_gain' : 20,
+            'pos_gain' : 30,
             'vel_gain' : 0.0002,
             'vel_integrator_gain' : 0.0002,
             'vel_limit' : 400000,
             'vel_limit_tolerance' : 1.2,
         }
-        aios.setMotionCtrlConfig(dict, Server_IP_list[0], 1)
+        for i in range(len(Server_IP_list)):
+            aios.setMotionCtrlConfig(dict, Server_IP_list[i], 1)
+        print('\n')
         # aios.AIOSaveConfig(Server_IP_list[0])
         # aios.AIOSRebootMotorDrive(Server_IP_list[0])
         # time.sleep(2)
         #
-        aios.getMotionCtrlConfig(Server_IP_list[0], 1)
+        for i in range(len(Server_IP_list)):
+            aios.getMotionCtrlConfig(Server_IP_list[i], 1)
         print('\n')
 
 

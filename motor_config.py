@@ -3,25 +3,26 @@ import time
 import threading
 import numpy as np
 
-# Server_IP_list = ['192.168.1.136','192.168.1.112','192.168.1.164']#,'192.168.1.190']
-Server_IP_list = ['192.168.8.157']
-# Server_IP_list = ['192.168.100.21']#,'192.168.100.15','192.168.100.3']
-# Server_IP_list = ['192.168.1.189']#,'192.168.1.148'] # 执行器IP地址
-# Server_IP_list = ['39.97.214.191']
-# Server_IP_list = ['123.57.14.125']
-# Server_IP_list = ['192.168.31.96']
+
+Server_IP_list = []
+
 
 
 
 def main():
 
-    if aios.broadcast_func():
+    Server_IP_list = aios.broadcast_func()
+    if Server_IP_list:
 
         for i in range(len(Server_IP_list)):
             aios.AIOSGetRoot(Server_IP_list[i])
 
+        print('\n')
 
-        aios.getMotorConfig(Server_IP_list[0], 1)
+        for i in range(len(Server_IP_list)):
+            aios.getMotorConfig(Server_IP_list[i], 1)
+
+        print('\n')
 
         dict = {
             'current_lim' : 15,
@@ -31,12 +32,17 @@ def main():
             'requested_current_range' : 30,
             'current_control_bandwidth' : 500,
         }
-        aios.setMotorConfig(dict, Server_IP_list[0], 1)
-        aios.AIOSaveConfig(Server_IP_list[0])
-        aios.AIOSRebootMotorDrive(Server_IP_list[0])
-        time.sleep(2)
+        for i in range(len(Server_IP_list)):
+            aios.setMotorConfig(dict, Server_IP_list[i], 1)
+            aios.AIOSaveConfig(Server_IP_list[i])
 
-        aios.getMotorConfig(Server_IP_list[0], 0)
+        print('\n')
+
+        # for i in range(len(Server_IP_list)):
+        #     aios.AIOSRebootMotorDrive(Server_IP_list[i])
+        # time.sleep(2)
+        for i in range(len(Server_IP_list)):
+            aios.getMotorConfig(Server_IP_list[i], 1)
         print('\n')
 
 

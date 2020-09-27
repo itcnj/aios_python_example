@@ -15,7 +15,8 @@ Server_IP_list = ['192.168.8.167']#,'192.168.100.15','192.168.100.3']
 
 def main():
 
-    if aios.broadcast_func():
+    Server_IP_list = aios.broadcast_func()
+    if Server_IP_list:
 
         for i in range(len(Server_IP_list)):
             aios.AIOSGetRoot(Server_IP_list[i])

@@ -46,7 +46,8 @@ def main():
         cali_flag = False
         for i in range(len(Server_IP_list)):
             if (not aios.encoderIsReady(Server_IP_list[i], 1)):
-                aios.encoderOffsetCalibration(Server_IP_list[i], 1)
+                # aios.encoderOffsetCalibration(Server_IP_list[i], 1)
+                aios.encoderIndexSearch(Server_IP_list[i], 1)
                 cali_flag = True
 
 
@@ -118,12 +119,14 @@ def main():
                     print((time.time() - start)*1000)
                     time.sleep( delay_list_2[i] )
 
+                # pos = 0
                 for i in range(800):
                     start = time.time()
                     pos = np.sin(i*0.04*np.pi)*2000
+                    # pos = pos + 10
                     print(pos)
                     for j in range(len(Server_IP_list)):
-                        # aios.setPosition(pos, 0, 0, False, Server_IP_list[j], 1)
+                        # aios.setPosition(pos, 0, 0, True, Server_IP_list[j], 1)
                         aios.trapezoidalMove(pos, False, Server_IP_list[j], 1)
                     print(time.time() - start)
                     time.sleep(0.01)
