@@ -30,10 +30,14 @@ def main():
         for i in range(len(Server_IP_list)):
             aios.setMotionCtrlConfig(dict, Server_IP_list[i], 1)
         print('\n')
-        # aios.AIOSaveConfig(Server_IP_list[0])
-        # aios.AIOSRebootMotorDrive(Server_IP_list[0])
-        # time.sleep(2)
-        #
+
+        for i in range(len(Server_IP_list)):
+            aios.AIOSaveConfig(Server_IP_list[i])
+            aios.AIOSRebootMotorDrive(Server_IP_list[i])
+
+        print('\n')
+        time.sleep(2)
+
         for i in range(len(Server_IP_list)):
             aios.getMotionCtrlConfig(Server_IP_list[i], 1)
         print('\n')

@@ -46,8 +46,8 @@ def main():
         cali_flag = False
         for i in range(len(Server_IP_list)):
             if (not aios.encoderIsReady(Server_IP_list[i], 1)):
-                # aios.encoderOffsetCalibration(Server_IP_list[i], 1)
-                aios.encoderIndexSearch(Server_IP_list[i], 1)
+                aios.encoderOffsetCalibration(Server_IP_list[i], 1)
+                # aios.encoderIndexSearch(Server_IP_list[i], 1)
                 cali_flag = True
 
 
