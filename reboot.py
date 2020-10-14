@@ -15,10 +15,12 @@ def main():
             aios.AIOSGetRoot(Server_IP_list[i])
 
         for i in range(len(Server_IP_list)):
-            # aios.AIOSReboot(Server_IP_list[i])
-            aios.AIOSRebootMotorDrive(Server_IP_list[i])
-        time.sleep(2)
+            aios.AIOSReboot(Server_IP_list[i])
+            # aios.AIOSRebootMotorDrive(Server_IP_list[i])
+        time.sleep(3)
         print('\n')
+
+    Server_IP_list = aios.broadcast_func()
 
 
 

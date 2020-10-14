@@ -565,21 +565,21 @@ def getTrapTraj(server_ip, motor_number):
 # AIOS 设置执行器梯形模式轨迹参数
 # 参数：包括梯形加速度 梯形减速度 梯形速度限制 设备IP 电机号
 # 以元组方式返回 成功或失败
-def setTrapTraj(accel_limit, decel_limit, vel_limit, server_ip, motor_number):
+def setTrapTraj(dict, server_ip, motor_number):
     data = {
         'method' : 'SET',
         'reqTarget' : '/m0/trap_traj',
-        'accel_limit' : 0,
-        'decel_limit' : 0,
-        'vel_limit' : 0
+        'accel_limit' : 320000,
+        'decel_limit' : 320000,
+        'vel_limit' : 200000
     }
     if motor_number == 0:
         data['reqTarget'] = '/m0/trap_traj'
     elif motor_number == 1:
         data['reqTarget'] = '/m1/trap_traj'
-    data['accel_limit'] = accel_limit
-    data['decel_limit'] = decel_limit
-    data['vel_limit'] = vel_limit
+    data['accel_limit'] = dict['accel_limit']
+    data['decel_limit'] = dict['decel_limit']
+    data['vel_limit'] = dict['vel_limit']
     json_str = json.dumps(data)
     print ("Send JSON Obj:", json_str)
     s.sendto(str.encode(json_str), (server_ip, PORT_srv))
