@@ -20,7 +20,7 @@ def main():
         time.sleep(3)
         print('\n')
 
-    Server_IP_list = aios.broadcast_func()
+    # Server_IP_list = aios.broadcast_func()
 
 
 

@@ -46,6 +46,22 @@ def main():
                     aios.velRampTarget(vel_list[j], Server_IP_list[i], 1)
                     time.sleep( delay_list[j] )
 
+                time.sleep( 1 )
+
+                print("\n")
+
+                Pos, Vel, Cur = aios.getCVP(Server_IP_list[i], 1)
+                print("Position = %.2f, Velocity = %.0f, Current = %.4f" %(Pos, Vel, Cur))
+
+                # enableSuccess = aios.AIOSEnable(Server_IP_list[i], 1)
+                # aios.controlMode(3, Server_IP_list[i], 1)
+                aios.setPosition(Pos, 0, 0, True, Server_IP_list[i], 1)
+                aios.trapezoidalMove(0 , True, Server_IP_list[i], 1)
+                time.sleep( 1 )
+                aios.trapezoidalMove(3000 , True, Server_IP_list[i], 1)
+                time.sleep( 1 )
+
+
                 aios.AIOSDisable(Server_IP_list[i], 1)
 
 

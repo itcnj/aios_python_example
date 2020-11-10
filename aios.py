@@ -690,14 +690,14 @@ def setPosition(position, velocity_ff, current_ff, reply_enable, server_ip, moto
     json_str = json.dumps(data)
     # print ("Send JSON Obj:", json_str)
     s.sendto(str.encode(json_str), (server_ip, PORT_rt))
-    if reply_enable:
-        try:
-            data, address = s.recvfrom(1024)
-            # print('Server received from {}:{}'.format(address, data.decode('utf-8')))
-            json_obj = json.loads(data.decode('utf-8'))
-            print("Position = %.2f, Velocity = %.0f, Current = %.4f \n" %(json_obj.get('position'), json_obj.get('velocity'), json_obj.get('current')))
-        except socket.timeout: # fail after 1 second of no activity
-            print("Didn't receive anymore data! [Timeout]")
+    # if reply_enable:
+    #     try:
+    #         data, address = s.recvfrom(1024)
+    #         # print('Server received from {}:{}'.format(address, data.decode('utf-8')))
+    #         json_obj = json.loads(data.decode('utf-8'))
+    #         print("Position = %.2f, Velocity = %.0f, Current = %.4f \n" %(json_obj.get('position'), json_obj.get('velocity'), json_obj.get('current')))
+    #     except socket.timeout: # fail after 1 second of no activity
+    #         print("Didn't receive anymore data! [Timeout]")
 
 # AIOS 速度控制
 # 参数 速度 电流前馈 设备IP 电机号

@@ -25,8 +25,8 @@ def main():
         print('\n')
 
         dict = {
-            'current_lim' : 15,
-            'current_lim_margin' : 4,
+            'current_lim' : 8,
+            'current_lim_margin' : 5,
             'inverter_temp_limit_lower' : 90,
             'inverter_temp_limit_upper' : 120,
             'requested_current_range' : 30,

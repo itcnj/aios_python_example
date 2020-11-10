@@ -21,8 +21,8 @@ def main():
         print('\n')
 
         dict = {
-            'pos_gain' : 30,
-            'vel_gain' : 0.0002,
+            'pos_gain' : 20,
+            'vel_gain' : 0.00015,
             'vel_integrator_gain' : 0.0002,
             'vel_limit' : 400000,
             'vel_limit_tolerance' : 1.2,
@@ -33,7 +33,7 @@ def main():
 
         for i in range(len(Server_IP_list)):
             aios.AIOSaveConfig(Server_IP_list[i])
-            aios.AIOSRebootMotorDrive(Server_IP_list[i])
+            # aios.AIOSRebootMotorDrive(Server_IP_list[i])
 
         print('\n')
         time.sleep(2)
