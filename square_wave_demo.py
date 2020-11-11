@@ -118,13 +118,13 @@ def main():
                     # pos = pos + 10
                     print(pos)
                     for j in range(len(Server_IP_list)):
-                        # aios.setPosition(pos, 0, 0, True, Server_IP_list[j], 1)
-                        aios.trapezoidalMove(pos, False, Server_IP_list[j], 1)
-                    # for j in range(len(Server_IP_list)):
-                    #     aios.receive_func()
+                        aios.setPosition(pos, 0, 0, True, Server_IP_list[j], 1)
+                        # aios.trapezoidalMove(pos, False, Server_IP_list[j], 1)
+                    for j in range(len(Server_IP_list)):
+                        aios.receive_func()
 
                     print(time.time() - start)
-                    time.sleep(0.02)
+                    time.sleep(0.003)
 
 
                 for i in range(len(Server_IP_list)):
