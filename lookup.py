@@ -4,13 +4,15 @@ import threading
 import numpy as np
 import json
 
-Server_IP_list = ['192.168.1.136','192.168.1.112','192.168.1.164']#'192.168.1.190']
-
+Server_IP_list = []
 
 def main():
 
-    aios.broadcast_func()
+    Server_IP_list = aios.broadcast_func()
+    if Server_IP_list:
 
+        for i in range(len(Server_IP_list)):
+            aios.getRoot(Server_IP_list[i])
 
 
 

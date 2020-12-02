@@ -13,7 +13,7 @@ def main():
     if Server_IP_list:
 
         for i in range(len(Server_IP_list)):
-            aios.AIOSGetRoot(Server_IP_list[i])
+            aios.getRoot(Server_IP_list[i])
         print('\n')
 
         for i in range(len(Server_IP_list)):
@@ -32,8 +32,8 @@ def main():
         print('\n')
 
         for i in range(len(Server_IP_list)):
-            aios.AIOSaveConfig(Server_IP_list[i])
-            # aios.AIOSRebootMotorDrive(Server_IP_list[i])
+            aios.saveConfig(Server_IP_list[i])
+            # aios.rebootMotorDrive(Server_IP_list[i])
 
         print('\n')
         time.sleep(2)

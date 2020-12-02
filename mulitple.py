@@ -26,7 +26,7 @@ def main():
             time.sleep(10)
         else:
             for i in range(len(Server_IP_list)):
-                aios.AIOSGetRoot(Server_IP_list[i])
+                aios.getRoot(Server_IP_list[i])
 
             time.sleep( 1 )
 
@@ -41,7 +41,7 @@ def main():
 
             enableSuccess = True
             for i in range(len(Server_IP_list)):
-                enableSuccess = aios.AIOSEnable(Server_IP_list[i], 1)
+                enableSuccess = aios.enable(Server_IP_list[i], 1)
 
             if enableSuccess:
 
@@ -66,7 +66,7 @@ def main():
                     time.sleep( delay_list[i] )
 
                 for i in range(len(Server_IP_list)):
-                    aios.AIOSDisable(Server_IP_list[i], 1)
+                    aios.disable(Server_IP_list[i], 1)
 
 
 

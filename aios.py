@@ -48,7 +48,7 @@ print('Listening for broadcast at ', s.getsockname())
 # AIOS 使能
 # 参数：包括设备IP和电机号
 # 每个AIOS可以控制两个电机 分别为M0和M1 用0,1区别
-def AIOSEnable(server_ip, motor_number):
+def enable(server_ip, motor_number):
     data = {
         'method' : 'SET',
         'reqTarget' : '/m0/requested_state',
@@ -78,7 +78,7 @@ def AIOSEnable(server_ip, motor_number):
 # AIOS 失能
 # 参数：包括设备IP和电机号
 # 每个AIOS可以控制两个电机 分别为M0和M1 用0,1区别
-def AIOSDisable(server_ip, motor_number):
+def disable(server_ip, motor_number):
     data = {
         'method' : 'SET',
         'reqTarget' : '/m0/requested_state',
@@ -102,7 +102,7 @@ def AIOSDisable(server_ip, motor_number):
 # AIOS 获取当前状态
 # 参数：包括设备IP
 # 获取AIOS 获取当前状态
-def AIOSGetState(server_ip, motor_number):
+def getState(server_ip, motor_number):
     data = {
         'method' : 'GET',
         'reqTarget' : '/m0/requested_state',
@@ -125,7 +125,7 @@ def AIOSGetState(server_ip, motor_number):
 # AIOS 获取根属性
 # 参数：包括设备IP
 # 获取AIOS 全部基本属性 包括序列号 母线电压 电机温度 逆变器温度 版本号
-def AIOSGetRoot(server_ip):
+def getRoot(server_ip):
     data = {
         'method' : 'GET',
         'reqTarget' : '/',
@@ -140,9 +140,49 @@ def AIOSGetRoot(server_ip):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
+# AIOS 获取 Root Config 属性
+# 参数：包括设备IP
+# 获取AIOS 母线电压过电压和欠电压的保护阈值
+def getRootConfig(server_ip):
+    data = {
+        'method' : 'GET',
+        'reqTarget' : '/config',
+    }
+    json_str = json.dumps(data)
+    print ("Send JSON Obj:", json_str)
+    s.sendto(str.encode(json_str), (server_ip, PORT_srv))
+    try:
+        data, address = s.recvfrom(1024)
+        print('Server received from {}:{}'.format(address, data.decode('utf-8')))
+        json_obj = json.loads(data.decode('utf-8'))
+    except socket.timeout: # fail after 1 second of no activity
+        print("Didn't receive anymore data! [Timeout]")
+
+# AIOS 设置 Root Config 属性
+# 参数：母线电压过电压和欠电压的保护阈值
+# 返回 成功或失败
+def setRootConfig(dict, server_ip):
+    data = {
+        'method' : 'SET',
+        'reqTarget' : '/config',
+        'dc_bus_overvoltage_trip_level' : 30,
+        'dc_bus_undervoltage_trip_level' : 10,
+    }
+    data['dc_bus_overvoltage_trip_level'] = dict['dc_bus_overvoltage_trip_level']
+    data['dc_bus_undervoltage_trip_level'] = dict['dc_bus_undervoltage_trip_level']
+    json_str = json.dumps(data)
+    print ("Send JSON Obj:", json_str)
+    s.sendto(str.encode(json_str), (server_ip, PORT_srv))
+    try:
+        data, address = s.recvfrom(1024)
+        print('Server received from {}:{}'.format(address, data.decode('utf-8')))
+        json_obj = json.loads(data.decode('utf-8'))
+    except socket.timeout: # fail after 1 second of no activity
+        print("Didn't receive anymore data! [Timeout]")
+
 # AIOS 保存配置
 # 参数：包括设备IP
-def AIOSaveConfig(server_ip):
+def saveConfig(server_ip):
     data = {
         'method' : 'SET',
         'reqTarget' : '/',
@@ -160,7 +200,7 @@ def AIOSaveConfig(server_ip):
 
 # AIOS 清除配置
 # 参数：包括设备IP
-def AIOSEraseConfig(server_ip):
+def eraseConfig(server_ip):
     data = {
         'method' : 'SET',
         'reqTarget' : '/',
@@ -178,7 +218,7 @@ def AIOSEraseConfig(server_ip):
 
 # AIOS 重启
 # 参数：包括设备IP
-def AIOSReboot(server_ip):
+def reboot(server_ip):
     data = {
         'method' : 'SET',
         'reqTarget' : '/',
@@ -196,7 +236,7 @@ def AIOSReboot(server_ip):
 
 # AIOS 只重启电机驱动部分
 # 参数：包括设备IP
-def AIOSRebootMotorDrive(server_ip):
+def rebootMotorDrive(server_ip):
     data = {
         'method' : 'SET',
         'reqTarget' : '/',
@@ -214,7 +254,7 @@ def AIOSRebootMotorDrive(server_ip):
 
 # AIOS OTA升级
 # 参数：包括设备IP
-def AIOSOTAupdate(server_ip):
+def OTAupdate(server_ip):
     data = {
         'method' : 'SET',
         'reqTarget' : '/',
@@ -232,7 +272,7 @@ def AIOSOTAupdate(server_ip):
 
 # AIOS 获取错误代码
 # 参数：包括设备IP
-def AIOSGetError(server_ip, motor_number):
+def getError(server_ip, motor_number):
     data = {
         'method' : 'GET',
         'reqTarget' : '/m0/error',
@@ -253,7 +293,7 @@ def AIOSGetError(server_ip, motor_number):
 
 # AIOS 清除错误
 # 参数：包括设备IP
-def AIOSClearError(server_ip, motor_number):
+def clearError(server_ip, motor_number):
     data = {
         'method' : 'SET',
         'reqTarget' : '/m0/error',
@@ -305,6 +345,7 @@ def encoderOffsetCalibration(server_ip, motor_number):
         'method' : 'SET',
         'reqTarget' : '/m0/requested_state',
         'property' : AxisState.AXIS_STATE_ENCODER_OFFSET_CALIBRATION.value
+        # 'property' : AxisState.AXIS_STATE_FULL_CALIBRATION_SEQUENCE.value
     }
     if motor_number == 0:
         data['reqTarget'] = '/m0/requested_state'
@@ -658,14 +699,15 @@ def trapezoidalMove(position, reply_enable, server_ip, motor_number):
     json_str = json.dumps(data)
     print ("Send JSON Obj:", json_str)
     s.sendto(str.encode(json_str), (server_ip, PORT_rt))
-    if reply_enable:
-        try:
-            data, address = s.recvfrom(1024)
-            # print('Server received from {}:{}'.format(address, data.decode('utf-8')))
-            json_obj = json.loads(data.decode('utf-8'))
-            print("Position = %.2f, Velocity = %.0f, Current = %.4f \n" %(json_obj.get('position'), json_obj.get('velocity'), json_obj.get('current')))
-        except socket.timeout: # fail after 1 second of no activity
-            print("Didn't receive anymore data! [Timeout]")
+    # if reply_enable:
+    #     try:
+    #         data, address = s.recvfrom(1024)
+    #         # print('Server received from {}:{}'.format(address, data.decode('utf-8')))
+    #         json_obj = json.loads(data.decode('utf-8'))
+    #         print("Position = %.2f, Velocity = %.0f, Current = %.4f \n" %(json_obj.get('position'), json_obj.get('velocity'), json_obj.get('current')))
+    #     except socket.timeout: # fail after 1 second of no activity
+    #         print("Didn't receive anymore data! [Timeout]")
+
 
 # AIOS 位置控制
 # 参数：目标位置 速度前馈 电流前馈 设备IP 电机号
@@ -688,7 +730,7 @@ def setPosition(position, velocity_ff, current_ff, reply_enable, server_ip, moto
     data['velocity_ff'] = velocity_ff
     data['current_ff'] = current_ff
     json_str = json.dumps(data)
-    # print ("Send JSON Obj:", json_str)
+    print ("Send JSON Obj:", json_str)
     s.sendto(str.encode(json_str), (server_ip, PORT_rt))
     # if reply_enable:
     #     try:
@@ -755,6 +797,26 @@ def setCurrent(current, reply_enable,server_ip, motor_number):
         except socket.timeout: # fail after 1 second of no activity
             print("Didn't receive anymore data! [Timeout]")
 
+# AIOS 透传
+# 参数：包括设备IP 电机号
+# 无返回
+def passthrough(server_ip, tx_messages):
+    data = {
+        'method' : 'SET',
+        'reqTarget' : '/passthrough',
+        'tx_messages' : ''
+    }
+    data['tx_messages'] = tx_messages
+    json_str = json.dumps(data)
+    print ("Send JSON Obj:", json_str)
+    s.sendto(str.encode(json_str), (server_ip, PORT_srv))
+    try:
+        data, address = s.recvfrom(1024)
+        print('Server received from {}:{}'.format(address, data.decode('utf-8')))
+        json_obj = json.loads(data.decode('utf-8'))
+    except socket.timeout: # fail after 1 second of no activity
+        print("Didn't receive anymore data! [Timeout]")
+
 def dum_func(server_ip):
     data = {
         'method' : 'XET',
@@ -762,7 +824,7 @@ def dum_func(server_ip):
     }
     json_str = json.dumps(data)
     print ("Send JSON Obj:", json_str)
-    s.sendto(str.encode(json_str), (server_ip, PORT_srv))
+    s.sendto(str.encode(json_str), (server_ip, PORT_rt))
 
 def receive_func():
     try:
@@ -772,6 +834,54 @@ def receive_func():
     except socket.timeout: # fail after 1 second of no activity
         return False
         print("Didn't receive anymore data! [Timeout]")
+
+
+# IO_Module 设置IO_State状态
+# 参数：PWM0_CH PWM1_CH SERVO0 SERVO1
+# 参数取值范围: PWM0_CH,PWM1_CH[0~65535], SERVO0,SERVO1[0~180]
+# 返回 AI0 AI1 DI0 DI1
+def setIOState(dict, reply_enable, server_ip):
+    data = {
+        'method' : 'SET',
+        'reqTarget' : '/IO_State',
+        'reply_enable' : True
+    }
+    data['reply_enable'] = reply_enable
+    data['PWM0_CH'] = dict['PWM0_CH']
+    data['PWM1_CH'] = dict['PWM1_CH']
+    data['SERVO0'] = dict['SERVO0']
+    data['SERVO1'] = dict['SERVO1']
+    json_str = json.dumps(data)
+    print ("Send JSON Obj:", json_str)
+    s.sendto(str.encode(json_str), (server_ip, PORT_rt))
+    if reply_enable:
+        try:
+            data, address = s.recvfrom(1024)
+            print('Server received from {}:{}'.format(address, data.decode('utf-8')))
+            # json_obj = json.loads(data.decode('utf-8'))
+            # print("Position = %.2f, Velocity = %.0f, Current = %.4f \n" %(json_obj.get('position'), json_obj.get('velocity'), json_obj.get('current')))
+        except socket.timeout: # fail after 1 second of no activity
+            print("Didn't receive anymore data! [Timeout]")
+
+# IO_Module 获取IO_State状态
+# 返回值PWM0_CH,PWM1_CH[0~65535], SERVO0,SERVO1[0~180]
+# 返回 AI0[0~4096] AI1[0~4096] DI0[0,1] DI1[0,1] PWM0_CH,PWM1_CH[0~65535], SERVO0,SERVO1[0~180]
+def getIOState(server_ip):
+    data = {
+        'method' : 'GET',
+        'reqTarget' : '/IO_State',
+    }
+    json_str = json.dumps(data)
+    print ("Send JSON Obj:", json_str)
+    s.sendto(str.encode(json_str), (server_ip, PORT_rt))
+    try:
+        data, address = s.recvfrom(1024)
+        print('Server received from {}:{}'.format(address, data.decode('utf-8')))
+        # json_obj = json.loads(data.decode('utf-8'))
+        # print("Position = %.2f, Velocity = %.0f, Current = %.4f \n" %(json_obj.get('position'), json_obj.get('velocity'), json_obj.get('current')))
+    except socket.timeout: # fail after 1 second of no activity
+        print("Didn't receive anymore data! [Timeout]")
+
 
 # 广播查询局域网下的全部 AIOS
 # 参数：无

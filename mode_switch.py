@@ -27,10 +27,10 @@ def main():
             time.sleep(10)
         else:
             for i in range(len(Server_IP_list)):
-                aios.AIOSGetRoot(Server_IP_list[i])
+                aios.getRoot(Server_IP_list[i])
 
             i = 2;
-            enableSuccess = aios.AIOSEnable(Server_IP_list[i], 1)
+            enableSuccess = aios.enable(Server_IP_list[i], 1)
             print('\n')
 
             if enableSuccess:
@@ -53,7 +53,7 @@ def main():
                 Pos, Vel, Cur = aios.getCVP(Server_IP_list[i], 1)
                 print("Position = %.2f, Velocity = %.0f, Current = %.4f" %(Pos, Vel, Cur))
 
-                # enableSuccess = aios.AIOSEnable(Server_IP_list[i], 1)
+                # enableSuccess = aios.enable(Server_IP_list[i], 1)
                 # aios.controlMode(3, Server_IP_list[i], 1)
                 aios.setPosition(Pos, 0, 0, True, Server_IP_list[i], 1)
                 aios.trapezoidalMove(0 , True, Server_IP_list[i], 1)
@@ -62,7 +62,7 @@ def main():
                 time.sleep( 1 )
 
 
-                aios.AIOSDisable(Server_IP_list[i], 1)
+                aios.disable(Server_IP_list[i], 1)
 
 
 

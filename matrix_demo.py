@@ -49,7 +49,7 @@ def main():
             time.sleep(10)
         else:
             for i in range(len(Server_IP_list)):
-                aios.AIOSGetRoot(Server_IP_list[i])
+                aios.getRoot(Server_IP_list[i])
 
             print('\n')
 
@@ -84,8 +84,8 @@ def main():
             enableSuccess = True
 
             for i in range(len(Server_IP_list)):
-                enableSuccess = aios.AIOSEnable(Server_IP_list[i], 1)
-                enableSuccess = aios.AIOSEnable(Server_IP_list[i], 0)
+                enableSuccess = aios.enable(Server_IP_list[i], 1)
+                enableSuccess = aios.enable(Server_IP_list[i], 0)
             print('\n')
 
             if enableSuccess:
@@ -138,8 +138,8 @@ def main():
 
 
                 for i in range(len(Server_IP_list)):
-                    aios.AIOSDisable(Server_IP_list[i], 1)
-                    aios.AIOSDisable(Server_IP_list[i], 0)
+                    aios.disable(Server_IP_list[i], 1)
+                    aios.disable(Server_IP_list[i], 0)
 
 
 

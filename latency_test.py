@@ -40,9 +40,9 @@ def main():
     if Server_IP_list:
 
         for i in range(len(Server_IP_list)):
-            aios.AIOSGetRoot(Server_IP_list[i])
+            aios.getRoot(Server_IP_list[i])
 
-        for i in range(1000):
+        for i in range(10000):
             start = time.time()
             for j in range(len(Server_IP_list)):
                 aios.dum_func(Server_IP_list[j])

@@ -13,13 +13,13 @@ def main():
     if Server_IP_list:
 
         for i in range(len(Server_IP_list)):
-            aios.AIOSGetRoot(Server_IP_list[i])
+            aios.getRoot(Server_IP_list[i])
 
         for i in range(len(Server_IP_list)):
-            aios.AIOSGetError(Server_IP_list[i], 1)
-            aios.AIOSGetError(Server_IP_list[i], 0)
-            aios.AIOSClearError(Server_IP_list[i], 1)
-            aios.AIOSClearError(Server_IP_list[i], 0)
+            aios.getError(Server_IP_list[i], 1)
+            aios.getError(Server_IP_list[i], 0)
+            aios.clearError(Server_IP_list[i], 1)
+            aios.clearError(Server_IP_list[i], 0)
         print('\n')
 
 

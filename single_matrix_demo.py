@@ -47,9 +47,12 @@ def main():
 
         if cali_flag:
             time.sleep(10)
+            for i in range(len(Server_IP_list)):
+                aios.saveConfig(Server_IP_list[i])
+            print('\n')
         else:
             for i in range(len(Server_IP_list)):
-                aios.AIOSGetRoot(Server_IP_list[i])
+                aios.getRoot(Server_IP_list[i])
 
             print('\n')
 
@@ -83,7 +86,7 @@ def main():
             enableSuccess = True
 
             for i in range(len(Server_IP_list)):
-                enableSuccess = aios.AIOSEnable(Server_IP_list[i], 1)
+                enableSuccess = aios.enable(Server_IP_list[i], 1)
             print('\n')
 
             if enableSuccess:
@@ -131,7 +134,7 @@ def main():
 
 
                 for i in range(len(Server_IP_list)):
-                    aios.AIOSDisable(Server_IP_list[i], 1)
+                    aios.disable(Server_IP_list[i], 1)
 
 
 

@@ -27,10 +27,10 @@ def main():
             time.sleep(10)
         else:
             for i in range(len(Server_IP_list)):
-                aios.AIOSGetRoot(Server_IP_list[i])
+                aios.getRoot(Server_IP_list[i])
 
             i = 2;
-            enableSuccess = aios.AIOSEnable(Server_IP_list[i], 1)
+            enableSuccess = aios.enable(Server_IP_list[i], 1)
             print('\n')
 
             if enableSuccess:
@@ -46,7 +46,7 @@ def main():
                     aios.velRampTarget(vel_list[j], Server_IP_list[i], 1)
                     time.sleep( delay_list[j] )
 
-                aios.AIOSDisable(Server_IP_list[i], 1)
+                aios.disable(Server_IP_list[i], 1)
 
 
 

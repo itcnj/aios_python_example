@@ -3,9 +3,7 @@ import time
 import threading
 import numpy as np
 
-
 Server_IP_list = []
-
 
 
 
@@ -16,33 +14,29 @@ def main():
 
         for i in range(len(Server_IP_list)):
             aios.getRoot(Server_IP_list[i])
-
         print('\n')
 
         for i in range(len(Server_IP_list)):
-            aios.getMotorConfig(Server_IP_list[i], 1)
-
+            aios.getRootConfig(Server_IP_list[i])
         print('\n')
 
         dict = {
-            'current_lim' : 8,
-            'current_lim_margin' : 5,
-            'inverter_temp_limit_lower' : 90,
-            'inverter_temp_limit_upper' : 120,
-            'requested_current_range' : 30,
-            'current_control_bandwidth' : 500,
+            'dc_bus_overvoltage_trip_level' : 50,
+            'dc_bus_undervoltage_trip_level' : 10,
         }
         for i in range(len(Server_IP_list)):
-            aios.setMotorConfig(dict, Server_IP_list[i], 1)
-            aios.saveConfig(Server_IP_list[i])
-
+            aios.setRootConfig(dict, Server_IP_list[i])
         print('\n')
 
-        # for i in range(len(Server_IP_list)):
-        #     aios.rebootMotorDrive(Server_IP_list[i])
-        # time.sleep(2)
         for i in range(len(Server_IP_list)):
-            aios.getMotorConfig(Server_IP_list[i], 1)
+            aios.saveConfig(Server_IP_list[i])
+            aios.rebootMotorDrive(Server_IP_list[i])
+
+        print('\n')
+        time.sleep(2)
+
+        for i in range(len(Server_IP_list)):
+            aios.getRootConfig(Server_IP_list[i])
         print('\n')
 
 

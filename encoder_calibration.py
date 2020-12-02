@@ -4,7 +4,7 @@ import threading
 import numpy as np
 import json
 
-Server_IP_list = []
+Server_IP_list = ['192.168.5.31']
 
 
 def main():
@@ -23,6 +23,10 @@ def main():
         time.sleep(10)
         for i in range(len(Server_IP_list)):
             aios.encoderIsReady(Server_IP_list[i], 1)
+        print('\n')
+        for i in range(len(Server_IP_list)):
+            aios.saveConfig(Server_IP_list[i])
+        print('\n')
 
 
 

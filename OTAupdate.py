@@ -12,11 +12,11 @@ def main():
     if Server_IP_list:
 
         for i in range(len(Server_IP_list)):
-            aios.AIOSGetRoot(Server_IP_list[i])
+            aios.getRoot(Server_IP_list[i])
 
         for i in range(len(Server_IP_list)):
-            aios.AIOSOTAupdate(Server_IP_list[i])
-            # aios.AIOSRebootMotorDrive(Server_IP_list[i])
+            aios.OTAupdate(Server_IP_list[i])
+            # aios.rebootMotorDrive(Server_IP_list[i])
         time.sleep(2)
         print('\n')
 

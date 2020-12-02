@@ -22,7 +22,7 @@ def main():
             aios.encoderOffsetCalibration(Server_IP_1, 1)
             time.sleep(10)
         else:
-            aios.AIOSGetRoot(Server_IP_1)
+            aios.getRoot(Server_IP_1)
             time.sleep( 1 )
 
 
@@ -31,7 +31,7 @@ def main():
                 print("Position = %.2f, Velocity = %.0f, Current = %.4f" %(cvp[0], cvp[1], cvp[2]))
                 time.sleep(0.01)
 
-            if aios.AIOSEnable(Server_IP_1, 1):
+            if aios.enable(Server_IP_1, 1):
 
                 # aios.trapezoidalMove(0, Server_IP_1, 1)
                 # time.sleep( 10 )
@@ -63,7 +63,7 @@ def main():
                 #     time.sleep( delay_list[i] )
 
 
-                aios.AIOSDisable(Server_IP_1, 1)
+                aios.disable(Server_IP_1, 1)
 
 
 
