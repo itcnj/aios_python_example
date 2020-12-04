@@ -23,26 +23,26 @@ def main():
             dict = {
                 'PWM0_CH' : 1024,
                 'PWM1_CH' : 2048,
-                'SERVO0' : 90,
-                'SERVO1' : 120
+                'SERVO0' : 80,
+                'SERVO1' : 90
             }
             for i in range(len(Server_IP_list)):
                 aios.setIOState(dict, True, Server_IP_list[i])
             latency = time.time() - start
             print(latency);
             print('\n')
-            time.sleep(0.1)
+            time.sleep(1)
 
             dict = {
                 'PWM0_CH' : 32768,
                 'PWM1_CH' : 60000,
-                'SERVO0' : 30,
-                'SERVO1' : 180
+                'SERVO0' : 170,
+                'SERVO1' : 120
             }
             for i in range(len(Server_IP_list)):
                 aios.setIOState(dict, True, Server_IP_list[i])
             print('\n')
-            time.sleep(0.1)
+            time.sleep(1)
 
 
 
