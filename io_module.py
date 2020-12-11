@@ -21,7 +21,7 @@ def main():
         for j in range(500):
             start = time.time()
             dict = {
-                'PWM0_CH' : 1024,
+                'PWM0_CH' : 1400,
                 'PWM1_CH' : 2048,
                 'SERVO0' : 80,
                 'SERVO1' : 90
@@ -34,7 +34,7 @@ def main():
             time.sleep(1)
 
             dict = {
-                'PWM0_CH' : 32768,
+                'PWM0_CH' : 60000,
                 'PWM1_CH' : 60000,
                 'SERVO0' : 170,
                 'SERVO1' : 120
@@ -42,7 +42,7 @@ def main():
             for i in range(len(Server_IP_list)):
                 aios.setIOState(dict, True, Server_IP_list[i])
             print('\n')
-            time.sleep(1)
+            time.sleep(0.1)
 
 
 

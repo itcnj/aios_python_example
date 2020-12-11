@@ -32,7 +32,7 @@ stop_time = 0
 
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.settimeout(2.0)
+s.settimeout(2)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
 PORT_rt = 2333  # 高实时控制数据端口 速度 位置 电流等高实时数据
@@ -882,6 +882,49 @@ def getIOState(server_ip):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
+# aios 获取network_setting状态
+# 返回值
+def getNetworkSetting(server_ip):
+    data = {
+        'method' : 'GET',
+        'reqTarget' : '/network_setting',
+    }
+    json_str = json.dumps(data)
+    print ("Send JSON Obj:", json_str)
+    s.sendto(str.encode(json_str), (server_ip, PORT_srv))
+    try:
+        data, address = s.recvfrom(1024)
+        print('Server received from {}:{}'.format(address, data.decode('utf-8')))
+        # json_obj = json.loads(data.decode('utf-8'))
+        # print("Position = %.2f, Velocity = %.0f, Current = %.4f \n" %(json_obj.get('position'), json_obj.get('velocity'), json_obj.get('current')))
+    except socket.timeout: # fail after 1 second of no activity
+        print("Didn't receive anymore data! [Timeout]")
+
+# aios 设置network_setting状态
+# 返回值
+def setNetworkSetting(dict, server_ip):
+    data = {
+        'method' : 'SET',
+        'reqTarget' : '/network_setting',
+        'DHCP_enable' : 'True',
+    }
+    data['DHCP_enable'] = dict['DHCP_enable']
+    if dict['DHCP_enable'] == False:
+        data['staticIP'] = dict['staticIP']
+        data['gateway'] = dict['gateway']
+        data['subnet'] = dict['subnet']
+        data['dns_1'] = dict['dns_1']
+        data['dns_2'] = dict['dns_2']
+    json_str = json.dumps(data)
+    print ("Send JSON Obj:", json_str)
+    s.sendto(str.encode(json_str), (server_ip, PORT_srv))
+    try:
+        data, address = s.recvfrom(1024)
+        print('Server received from {}:{}'.format(address, data.decode('utf-8')))
+        # json_obj = json.loads(data.decode('utf-8'))
+        # print("Position = %.2f, Velocity = %.0f, Current = %.4f \n" %(json_obj.get('position'), json_obj.get('velocity'), json_obj.get('current')))
+    except socket.timeout: # fail after 1 second of no activity
+        print("Didn't receive anymore data! [Timeout]")
 
 # 广播查询局域网下的全部 AIOS
 # 参数：无
