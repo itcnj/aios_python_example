@@ -21,7 +21,7 @@ def main():
         print('\n')
 
         dict = {
-            'pos_gain' : 30,
+            'pos_gain' : 60,
             'vel_gain' : 0.0002,
             'vel_integrator_gain' : 0.0002,
             'vel_limit' : 400000,

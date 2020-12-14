@@ -4,12 +4,12 @@ import threading
 import numpy as np
 import json
 
-Server_IP_list = ['192.168.5.12']
+Server_IP_list = ['192.168.5.133']
 
 
 def main():
 
-    Server_IP_list = aios.broadcast_func()
+    # Server_IP_list = aios.broadcast_func()
     if Server_IP_list:
 
         cali_flag = False
