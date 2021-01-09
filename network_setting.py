@@ -12,21 +12,15 @@ def main():
     Server_IP_list = aios.broadcast_func()
     if Server_IP_list:
 
-        # for j in range(200):
-        #     for i in range(len(Server_IP_list)):
-        #         aios.getIOState(Server_IP_list[i])
-        #     print('\n')
-        #     time.sleep(0.1)
-
-        # for i in range(len(Server_IP_list)):
-        #     aios.getNetworkSetting(Server_IP_list[i])
-        # print('\n')
-        # time.sleep(1)
+        for i in range(len(Server_IP_list)):
+            aios.getNetworkSetting(Server_IP_list[i])
+        print('\n')
+        time.sleep(1)
 
         for i in range(len(Server_IP_list)):
             dict = {
                 'DHCP_enable' : False,
-                'staticIP' : [192,168,5,i+130],
+                'staticIP' : [192,168,5,i+150],
                 'gateway' : [192,168,5,1],
                 'subnet' : [255,255,255,0],
                 'dns_1' : [114,114,114,114],

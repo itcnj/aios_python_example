@@ -8,23 +8,16 @@ from math import *
 
 # 初始化执行器状态
 class AxisState(Enum):
-        AXIS_STATE_UNDEFINED = 0
         AXIS_STATE_IDLE = 1
-        AXIS_STATE_STARTUP_SEQUENCE = 2
-        AXIS_STATE_FULL_CALIBRATION_SEQUENCE = 3
-        AXIS_STATE_MOTOR_CALIBRATION = 4
-        AXIS_STATE_SENSORLESS_CONTROL = 5
-        AXIS_STATE_ENCODER_INDEX_SEARCH = 6
-        AXIS_STATE_ENCODER_OFFSET_CALIBRATION = 7
-        AXIS_STATE_CLOSED_LOOP_CONTROL = 8
+        AXIS_STATE_ENABLE = 8
 
 # 执行器控制模式
 class ControlMode(Enum):
-        CTRL_MODE_VOLTAGE_CONTROL = 0
-        CTRL_MODE_CURRENT_CONTROL = 1
-        CTRL_MODE_VELOCITY_CONTROL = 2
-        CTRL_MODE_POSITION_CONTROL = 3
-        CTRL_MODE_TRAJECTORY_CONTROL = 4
+        VOLTAGE_CONTROL = 0
+        CURRENT_CONTROL = 1
+        VELOCITY_CONTROL = 2
+        POSITION_CONTROL = 3
+        TRAJECTORY_CONTROL = 4
 
 start_time = 0
 stop_time = 0
@@ -52,7 +45,7 @@ def enable(server_ip, motor_number):
     data = {
         'method' : 'SET',
         'reqTarget' : '/m0/requested_state',
-        'property' : AxisState.AXIS_STATE_CLOSED_LOOP_CONTROL.value
+        'property' : AxisState.AXIS_STATE_ENABLE.value
     }
     if motor_number == 0:
         data['reqTarget'] = '/m0/requested_state'
@@ -797,25 +790,6 @@ def setCurrent(current, reply_enable,server_ip, motor_number):
         except socket.timeout: # fail after 1 second of no activity
             print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 透传
-# 参数：包括设备IP 电机号
-# 无返回
-def passthrough(server_ip, tx_messages):
-    data = {
-        'method' : 'SET',
-        'reqTarget' : '/passthrough',
-        'tx_messages' : ''
-    }
-    data['tx_messages'] = tx_messages
-    json_str = json.dumps(data)
-    print ("Send JSON Obj:", json_str)
-    s.sendto(str.encode(json_str), (server_ip, PORT_srv))
-    try:
-        data, address = s.recvfrom(1024)
-        print('Server received from {}:{}'.format(address, data.decode('utf-8')))
-        json_obj = json.loads(data.decode('utf-8'))
-    except socket.timeout: # fail after 1 second of no activity
-        print("Didn't receive anymore data! [Timeout]")
 
 def dum_func(server_ip):
     data = {
