@@ -883,6 +883,8 @@ def setNetworkSetting(dict, server_ip):
         'DHCP_enable' : 'True',
     }
     data['DHCP_enable'] = dict['DHCP_enable']
+    data['SSID'] = dict['SSID']
+    data['password'] = dict['password']
     if dict['DHCP_enable'] == False:
         data['staticIP'] = dict['staticIP']
         data['gateway'] = dict['gateway']

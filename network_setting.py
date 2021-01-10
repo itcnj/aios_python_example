@@ -19,7 +19,9 @@ def main():
 
         for i in range(len(Server_IP_list)):
             dict = {
-                'DHCP_enable' : False,
+                'DHCP_enable' : True,
+                'SSID' : 'AMBER',
+                'password' : 'amber',
                 'staticIP' : [192,168,5,i+150],
                 'gateway' : [192,168,5,1],
                 'subnet' : [255,255,255,0],
