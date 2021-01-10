@@ -19,14 +19,6 @@ def main():
     if Server_IP_list:
 
 
-        # for i in range(1000):
-        #     start = time.time()
-        #     for j in range(len(Server_IP_list)):
-        #         aios.dum_func(Server_IP_list[j])
-        #     for j in range(len(Server_IP_list)):
-        #         aios.receive_func()
-        #     print((time.time() - start)*1000)
-        #     time.sleep(0.005)
         for i in range(5):
             for i in range(len(Server_IP_list)):
                 cvp = aios.getCVP(Server_IP_list[i], 1)
@@ -35,22 +27,14 @@ def main():
             time.sleep(0.02)
         print('\n')
 
-        cali_flag = False
+        encoderIsReady = True
         for i in range(len(Server_IP_list)):
             if (not aios.encoderIsReady(Server_IP_list[i], 1)):
-                aios.encoderOffsetCalibration(Server_IP_list[i], 1)
-                # aios.encoderIndexSearch(Server_IP_list[i], 1)
-                cali_flag = True
-
+                encoderIsReady = False
 
         print('\n')
 
-        if cali_flag:
-            time.sleep(10)
-            for i in range(len(Server_IP_list)):
-                aios.saveConfig(Server_IP_list[i])
-            print('\n')
-        else:
+        if encoderIsReady:
             for i in range(len(Server_IP_list)):
                 aios.getRoot(Server_IP_list[i])
 
@@ -59,29 +43,6 @@ def main():
             for i in range(len(Server_IP_list)):
                 aios.getMotionCtrlConfig(Server_IP_list[0], 1)
             print('\n')
-            # aios.setTrapTraj(320000, 320000, 200000, Server_IP_list[0], 0)
-            # aios.getTrapTraj(Server_IP_list[0], 0)
-
-            # for i in range(len(Server_IP_list)):
-            #     cvp = aios.getCVP(Server_IP_list[i], 1)
-            #     print("Position = %.2f, Velocity = %.0f, Current = %.4f" %(cvp[0], cvp[1], cvp[2]))
-            #     cvp = aios.getCVP(Server_IP_list[i], 0)
-            #     print("Position = %.2f, Velocity = %.0f, Current = %.4f" %(cvp[0], cvp[1], cvp[2]))
-            #     print('\n')
-            #
-            # str = input("Press Enter：")
-            #
-            # for i in range(len(Server_IP_list)):
-            #     aios.setLinearCount(0, Server_IP_list[i], 1)
-            #     aios.setLinearCount(0, Server_IP_list[i], 0)
-            # print('\n')
-            #
-            # for i in range(len(Server_IP_list)):
-            #     cvp = aios.getCVP(Server_IP_list[i], 1)
-            #     print("Position = %.2f, Velocity = %.0f, Current = %.4f" %(cvp[0], cvp[1], cvp[2]))
-            #     cvp = aios.getCVP(Server_IP_list[i], 0)
-            #     print("Position = %.2f, Velocity = %.0f, Current = %.4f" %(cvp[0], cvp[1], cvp[2]))
-            #     print('\n')
 
             enableSuccess = True
 
@@ -90,8 +51,6 @@ def main():
             print('\n')
 
             if enableSuccess:
-
-                # aios.controlMode(3, Server_IP_list[0], 1)
 
                 for i in range(len(Server_IP_list)):
                     aios.trapezoidalMove(0, True, Server_IP_list[i], 1)
@@ -114,11 +73,9 @@ def main():
                     print((time.time() - start)*1000)
                     time.sleep( delay_list_2[i] )
 
-                # pos = 0
                 for i in range(800):
                     start = time.time()
                     pos = np.sin(i*0.04*np.pi)*2000
-                    # pos = pos + 10
                     print(pos)
                     for j in range(len(Server_IP_list)):
                         # aios.setPosition(pos, 0, 0, True, Server_IP_list[j], 1)

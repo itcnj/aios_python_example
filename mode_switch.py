@@ -13,23 +13,18 @@ def main():
     Server_IP_list = aios.broadcast_func()
     if Server_IP_list:
 
-        cali_flag = False
+        encoderIsReady = True
         for i in range(len(Server_IP_list)):
             if (not aios.encoderIsReady(Server_IP_list[i], 1)):
-                aios.encoderOffsetCalibration(Server_IP_list[i], 1)
-                # aios.encoderIndexSearch(Server_IP_list[i], 1)
-                cali_flag = True
-
+                encoderIsReady = False
 
         print('\n')
 
-        if cali_flag:
-            time.sleep(10)
-        else:
+        if encoderIsReady:
             for i in range(len(Server_IP_list)):
                 aios.getRoot(Server_IP_list[i])
 
-            i = 2;
+            i = 0;
             enableSuccess = aios.enable(Server_IP_list[i], 1)
             print('\n')
 

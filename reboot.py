@@ -17,7 +17,6 @@ def main():
         for i in range(len(Server_IP_list)):
             aios.reboot(Server_IP_list[i])
             # aios.rebootMotorDrive(Server_IP_list[i])
-        time.sleep(3)
         print('\n')
 
     # Server_IP_list = aios.broadcast_func()
