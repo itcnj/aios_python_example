@@ -330,53 +330,6 @@ def getCVP(server_ip, motor_number):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 编码器校准 (初期版本电机编码器需要先校准才能使用，后期完善后不需要此操作)
-# 参数：包括设备IP 电机号
-# 无返回
-def encoderOffsetCalibration(server_ip, motor_number):
-    data = {
-        'method' : 'SET',
-        'reqTarget' : '/m0/requested_state',
-        'property' : AxisState.AXIS_STATE_ENCODER_OFFSET_CALIBRATION.value
-        # 'property' : AxisState.AXIS_STATE_FULL_CALIBRATION_SEQUENCE.value
-    }
-    if motor_number == 0:
-        data['reqTarget'] = '/m0/requested_state'
-    elif motor_number == 1:
-        data['reqTarget'] = '/m1/requested_state'
-    json_str = json.dumps(data)
-    print ("Send JSON Obj:", json_str)
-    s.sendto(str.encode(json_str), (server_ip, PORT_srv))
-    try:
-        data, address = s.recvfrom(1024)
-        print('Server received from {}:{}'.format(address, data.decode('utf-8')))
-        json_obj = json.loads(data.decode('utf-8'))
-    except socket.timeout: # fail after 1 second of no activity
-        print("Didn't receive anymore data! [Timeout]")
-
-# AIOS 编码器Index搜索 (初期版本电机编码器需要先校准才能使用，后期完善后不需要此操作)
-# 参数：包括设备IP 电机号
-# 无返回
-def encoderIndexSearch(server_ip, motor_number):
-    data = {
-        'method' : 'SET',
-        'reqTarget' : '/m0/requested_state',
-        'property' : AxisState.AXIS_STATE_ENCODER_INDEX_SEARCH.value
-    }
-    if motor_number == 0:
-        data['reqTarget'] = '/m0/requested_state'
-    elif motor_number == 1:
-        data['reqTarget'] = '/m1/requested_state'
-    json_str = json.dumps(data)
-    print ("Send JSON Obj:", json_str)
-    s.sendto(str.encode(json_str), (server_ip, PORT_srv))
-    try:
-        data, address = s.recvfrom(1024)
-        print('Server received from {}:{}'.format(address, data.decode('utf-8')))
-        json_obj = json.loads(data.decode('utf-8'))
-    except socket.timeout: # fail after 1 second of no activity
-        print("Didn't receive anymore data! [Timeout]")
-
 
 # AIOS 获取编码器是否准备好 (如果没有准备好 则执行编码器校准)
 # 参数：包括设备IP 电机号
@@ -692,14 +645,14 @@ def trapezoidalMove(position, reply_enable, server_ip, motor_number):
     json_str = json.dumps(data)
     print ("Send JSON Obj:", json_str)
     s.sendto(str.encode(json_str), (server_ip, PORT_rt))
-    # if reply_enable:
-    #     try:
-    #         data, address = s.recvfrom(1024)
-    #         # print('Server received from {}:{}'.format(address, data.decode('utf-8')))
-    #         json_obj = json.loads(data.decode('utf-8'))
-    #         print("Position = %.2f, Velocity = %.0f, Current = %.4f \n" %(json_obj.get('position'), json_obj.get('velocity'), json_obj.get('current')))
-    #     except socket.timeout: # fail after 1 second of no activity
-    #         print("Didn't receive anymore data! [Timeout]")
+    if reply_enable:
+        try:
+            data, address = s.recvfrom(1024)
+            # print('Server received from {}:{}'.format(address, data.decode('utf-8')))
+            json_obj = json.loads(data.decode('utf-8'))
+            print("Position = %.2f, Velocity = %.0f, Current = %.4f \n" %(json_obj.get('position'), json_obj.get('velocity'), json_obj.get('current')))
+        except socket.timeout: # fail after 1 second of no activity
+            print("Didn't receive anymore data! [Timeout]")
 
 
 # AIOS 位置控制
