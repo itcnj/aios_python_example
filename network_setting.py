@@ -10,6 +10,7 @@ Server_IP_list = []
 def main():
 
     Server_IP_list = aios.broadcast_func()
+    # Server_IP_list = aios.multicast_func()
     if Server_IP_list:
 
         for i in range(len(Server_IP_list)):
@@ -20,10 +21,10 @@ def main():
         for i in range(len(Server_IP_list)):
             dict = {
                 'DHCP_enable' : True,
-                'SSID' : 'AMBER',
-                'password' : 'amber',
-                'staticIP' : [192,168,5,i+150],
-                'gateway' : [192,168,5,1],
+                'SSID' : 'wifi-name',
+                'password' : 'wifi-password',
+                'staticIP' : [192,168,2,i+150],
+                'gateway' : [192,168,2,1],
                 'subnet' : [255,255,255,0],
                 'dns_1' : [114,114,114,114],
                 'dns_2' : [8,8,8,8]
