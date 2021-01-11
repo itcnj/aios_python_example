@@ -6,12 +6,12 @@ import numpy as np
 from enum import Enum
 from math import *
 
-# 初始化执行器状态
+# Initialize the actuator state
 class AxisState(Enum):
         AXIS_STATE_IDLE = 1
         AXIS_STATE_ENABLE = 8
 
-# 执行器控制模式
+# Actuator control mode
 class ControlMode(Enum):
         VOLTAGE_CONTROL = 0
         CURRENT_CONTROL = 1
@@ -28,19 +28,20 @@ s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.settimeout(2)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
-PORT_rt = 2333  # 高实时控制数据端口 速度 位置 电流等高实时数据
-PORT_srv = 2334 # 低优先级服务数据端口 参数设置和读取
+PORT_rt = 2333  # Real-time control data port, ie. speed, position, current and other real-time data
+PORT_srv = 2334 # Low priority service data port. ie, parameter setting and reading
 
 
 # s.bind(('', PORT_srv))
 
 network = '<broadcast>'
+network_multicast = '192.168.2.255'
 
 print('Listening for broadcast at ', s.getsockname())
 
-# AIOS 使能
-# 参数：包括设备IP和电机号
-# 每个AIOS可以控制两个电机 分别为M0和M1 用0,1区别
+# AIOS enable
+# Parameters: including device IP and motor number
+# Each AIOS can control two motors, M0 and M1
 def enable(server_ip, motor_number):
     data = {
         'method' : 'SET',
@@ -68,9 +69,10 @@ def enable(server_ip, motor_number):
         print("Recv Data Error !")
         return False
 
-# AIOS 失能
-# 参数：包括设备IP和电机号
-# 每个AIOS可以控制两个电机 分别为M0和M1 用0,1区别
+
+# AIOS Disable
+# Parameters: including device IP and motor number
+# Each AIOS can control two motors, M0 and M1
 def disable(server_ip, motor_number):
     data = {
         'method' : 'SET',
@@ -92,9 +94,10 @@ def disable(server_ip, motor_number):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 获取当前状态
-# 参数：包括设备IP
-# 获取AIOS 获取当前状态
+
+# AIOS Get current status
+# Parameters: including device IP
+# Get AIOS Get current status
 def getState(server_ip, motor_number):
     data = {
         'method' : 'GET',
@@ -115,9 +118,9 @@ def getState(server_ip, motor_number):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 获取根属性
-# 参数：包括设备IP
-# 获取AIOS 全部基本属性 包括序列号 母线电压 电机温度 逆变器温度 版本号
+# AIOS Get root attributes
+# Parameters: including device IP
+# Get all basic attributes of AIOS, including serial number, bus voltage, motor temperature, inverter temperature, version number
 def getRoot(server_ip):
     data = {
         'method' : 'GET',
@@ -133,9 +136,9 @@ def getRoot(server_ip):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 获取 Root Config 属性
-# 参数：包括设备IP
-# 获取AIOS 母线电压过电压和欠电压的保护阈值
+# AIOS Get Root Config property
+# Parameters: including device IP
+# Get AIOS bus voltage over-voltage and under-voltage protection threshold
 def getRootConfig(server_ip):
     data = {
         'method' : 'GET',
@@ -151,9 +154,9 @@ def getRootConfig(server_ip):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 设置 Root Config 属性
-# 参数：母线电压过电压和欠电压的保护阈值
-# 返回 成功或失败
+# AIOS set Root Config properties
+#Parameter: The protection threshold of bus voltage overvoltage and undervoltage
+# Return success or failure
 def setRootConfig(dict, server_ip):
     data = {
         'method' : 'SET',
@@ -173,8 +176,8 @@ def setRootConfig(dict, server_ip):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 保存配置
-# 参数：包括设备IP
+# AIOS save configuration
+# Parameters: including device IP
 def saveConfig(server_ip):
     data = {
         'method' : 'SET',
@@ -191,8 +194,8 @@ def saveConfig(server_ip):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 清除配置
-# 参数：包括设备IP
+# AIOS clear configuration
+# Parameters: including device IP
 def eraseConfig(server_ip):
     data = {
         'method' : 'SET',
@@ -209,8 +212,8 @@ def eraseConfig(server_ip):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 重启
-# 参数：包括设备IP
+# AIOS restart
+# Parameters: including device IP
 def reboot(server_ip):
     data = {
         'method' : 'SET',
@@ -227,8 +230,8 @@ def reboot(server_ip):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 只重启电机驱动部分
-# 参数：包括设备IP
+# AIOS restart the motor drive 
+# Parameters: including device IP
 def rebootMotorDrive(server_ip):
     data = {
         'method' : 'SET',
@@ -245,8 +248,8 @@ def rebootMotorDrive(server_ip):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS OTA升级
-# 参数：包括设备IP
+# AIOS OTA upgrade
+# Parameters: including device IP
 def OTAupdate(server_ip):
     data = {
         'method' : 'SET',
@@ -823,7 +826,6 @@ def getNetworkSetting(server_ip):
         data, address = s.recvfrom(1024)
         print('Server received from {}:{}'.format(address, data.decode('utf-8')))
         # json_obj = json.loads(data.decode('utf-8'))
-        # print("Position = %.2f, Velocity = %.0f, Current = %.4f \n" %(json_obj.get('position'), json_obj.get('velocity'), json_obj.get('current')))
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
@@ -868,6 +870,36 @@ def broadcast_func():
     print('\n')
 
     start = time.time();
+    while True:
+        try:
+            data, address = s.recvfrom(1024)
+            address_list.append(address[0])
+            print('Server received from {}:{}'.format(address, data.decode('utf-8')))
+            json_obj = json.loads(data.decode('utf-8'))
+            found_server = True
+        except socket.timeout: # fail after 1 second of no activity
+            if found_server:
+                print('\n')
+                print('found servers')
+                print(address_list)
+                print('lookup Finished! \n')
+                time.sleep(2)
+                return address_list
+            else:
+                print("Do not have any server! [Timeout] \n")
+                return False
+            break
+
+    print('\n')
+
+
+def multicast_func():
+    found_server = False
+    address_list = []
+
+    s.sendto('Is any AIOS server here?'.encode('utf-8'), (network_multicast, PORT_srv))
+    print('\n')
+
     while True:
         try:
             data, address = s.recvfrom(1024)
