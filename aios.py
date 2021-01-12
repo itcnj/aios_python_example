@@ -266,8 +266,8 @@ def OTAupdate(server_ip):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 获取错误代码
-# 参数：包括设备IP
+# AIOS get error code
+# Parameters: including device IP
 def getError(server_ip, motor_number):
     data = {
         'method' : 'GET',
@@ -857,6 +857,26 @@ def setNetworkSetting(dict, server_ip):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
+# AIOS passthrough
+# 参数：包括设备IP 电机号
+# 无返回
+def passthrough(server_ip, tx_messages):
+    data = {
+        'method' : 'SET',
+        'reqTarget' : '/passthrough',
+        'tx_messages' : ''
+    }
+    data['tx_messages'] = tx_messages
+    json_str = json.dumps(data)
+    print ("Send JSON Obj:", json_str)
+    s.sendto(str.encode(json_str), (server_ip, PORT_srv))
+    try:
+        data, address = s.recvfrom(1024)
+        print('Server received from {}:{}'.format(address, data.decode('utf-8')))
+        json_obj = json.loads(data.decode('utf-8'))
+    except socket.timeout: # fail after 1 second of no activity
+        print("Didn't receive anymore data! [Timeout]")
+        
 # 广播查询局域网下的全部 AIOS
 # 参数：无
 # 返回 成功 失败 超时
