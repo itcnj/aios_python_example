@@ -266,8 +266,8 @@ def OTAupdate(server_ip):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 获取错误代码
-# 参数：包括设备IP
+# AIOS Get error code
+# Parameters: including server IP
 def getError(server_ip, motor_number):
     data = {
         'method' : 'GET',
@@ -287,8 +287,8 @@ def getError(server_ip, motor_number):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 清除错误
-# 参数：包括设备IP
+# AIOS Remove error
+# Parameters: including server IP
 def clearError(server_ip, motor_number):
     data = {
         'method' : 'SET',
@@ -309,9 +309,9 @@ def clearError(server_ip, motor_number):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 获取执行器位置 速度 电流
-# 参数：包括设备IP 电机号
-# 以元组方式返回 位置 速度 电流
+# AIOS Get actuator position, speed, current
+# Parameters: including server ip，motor number
+# Return position, speed, current in tuple
 def getCVP(server_ip, motor_number):
     data = {
         'method' : 'GET',
@@ -334,9 +334,9 @@ def getCVP(server_ip, motor_number):
         print("Didn't receive anymore data! [Timeout]")
 
 
-# AIOS 获取编码器是否准备好 (如果没有准备好 则执行编码器校准)
-# 参数：包括设备IP 电机号
-# 无返回
+# AIOS test if the encoder is ready or not (If not ready, perform encoder calibration)
+# Parameters: including server ip，motor number
+# no return code
 def encoderIsReady(server_ip, motor_number):
     data = {
         'method' : 'GET',
@@ -361,9 +361,9 @@ def encoderIsReady(server_ip, motor_number):
     else:
         print("Recv Data Error !")
 
-# AIOS 设置控制模式
-# 参数：包括设备IP 控制模式 电机号
-# 无返回
+# AIOS set control mode
+# Parameters: including server ip，motor number
+# no return code
 def controlMode(ctrlMode, server_ip, motor_number):
     data = {
         'method' : 'SET',
@@ -386,9 +386,9 @@ def controlMode(ctrlMode, server_ip, motor_number):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 重新设置电机位置
-# 参数：位置参数 包括设备IP 电机号
-# 无返回
+# AIOS reset linear count
+# Parameters: including server ip，motor number
+# no return code
 def setLinearCount(set_linear_count, server_ip, motor_number):
     data = {
         'method' : 'SET',
@@ -412,9 +412,9 @@ def setLinearCount(set_linear_count, server_ip, motor_number):
         print("Didn't receive anymore data! [Timeout]")
 
 
-# AIOS 获取执行器PID控制器参数
-# 参数：包括设备IP 电机号
-# 以元组方式返回 控制模式 位置比例增益 速度比例增益 速度积分增益 速度限制 速度限制容差
+# AIOS Get actuator PID controller parameters
+# Parameters: including server ip，motor number
+# Return to control mode in tuples Position proportional gain Speed proportional gain Speed integral gain Speed limit Speed limit tolerance
 def getMotionCtrlConfig(server_ip, motor_number):
     data = {
         'method' : 'GET',
@@ -436,9 +436,9 @@ def getMotionCtrlConfig(server_ip, motor_number):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 设置执行器PID控制器参数
-# 参数：位置比例增益 速度比例增益 速度积分增益 速度限制 速度限制容差
-# 返回 成功或失败
+# AIOS Get actuator PID controller parameters
+# parameter: Position proportional gain Speed proportional gain Speed integral gain Speed limit Speed limit tolerance
+# return success or fail
 def setMotionCtrlConfig(dict, server_ip, motor_number):
     data = {
         'method' : 'SET',
@@ -468,9 +468,9 @@ def setMotionCtrlConfig(dict, server_ip, motor_number):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 获取执行器MotorConfig参数
-# 参数：包括设备IP 电机号
-# 以元组方式返回 电机电流限制 电流限制余量 逆变器温度下线 逆变器温度上限 电流控制带宽 包括设备IP 电机号
+# AIOS get actuator MotorConfig parameters
+# parameter: server ip, motor number
+# return Parameters: motor current limit, current limit margin, inverter temperature offline, inverter temperature upper limit, current control bandwidth, including device IP, motor number as a tuple
 def getMotorConfig(server_ip, motor_number):
     data = {
         'method' : 'GET',
@@ -492,9 +492,9 @@ def getMotorConfig(server_ip, motor_number):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 设置执行器MotorConfig参数
-# 参数：电机电流限制 电流限制余量 逆变器温度下线 逆变器温度上限 电流控制带宽 包括设备IP 电机号
-# 返回 成功或失败
+# AIOS set actuator MotorConfig parameter
+# Parameters: motor current limit, current limit margin, inverter temperature offline, inverter temperature upper limit, current control bandwidth, including device IP, motor number
+# ruturn seccess or fail
 def setMotorConfig(dict, server_ip, motor_number):
     data = {
         'method' : 'SET',
@@ -528,9 +528,9 @@ def setMotorConfig(dict, server_ip, motor_number):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 获取执行器梯形模式轨迹参数
-# 参数：包括设备IP 电机号
-# 以元组方式返回 梯形加速度 梯形减速度 梯形速度限制
+# AIOS Get the trajectory parameters of actuator trapezoidal mode
+# parameter: server ip, motor number
+# ruturn trapezoidal acceleration, trapezoidal deceleration, trapezoidal speed limit as a tuple
 def getTrapTraj(server_ip, motor_number):
     data = {
         'method' : 'GET',
@@ -552,9 +552,9 @@ def getTrapTraj(server_ip, motor_number):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 设置执行器梯形模式轨迹参数
-# 参数：包括梯形加速度 梯形减速度 梯形速度限制 设备IP 电机号
-# 以元组方式返回 成功或失败
+# AIOS Set trajectory parameters of actuator trapezoidal mode
+# parameter：Including trapezoidal acceleration, trapezoidal deceleration, trapezoidal speed limit, device IP, motor number
+# Return success or failure as a tuple
 def setTrapTraj(dict, server_ip, motor_number):
     data = {
         'method' : 'SET',
@@ -581,9 +581,9 @@ def setTrapTraj(dict, server_ip, motor_number):
         print("Didn't receive anymore data! [Timeout]")
 
 
-# AIOS 速度斜坡模式使能
-# 参数：包括设备IP 控制模式 电机号
-# 无返回
+# AIOS velocity ramp enable
+# parameter:controller mode,server ip,motor number
+# return none
 def velRampEnable(enable, server_ip, motor_number):
     data = {
         'method' : 'SET',
@@ -605,9 +605,9 @@ def velRampEnable(enable, server_ip, motor_number):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 速度斜坡模式 设置目标速度
-# 参数：包括设备IP 目标速度 电机号
-# 无返回
+# AIOS Speed ramp mode Set target speed
+# parameter：target velocity,server ip,motor number
+# no return
 def velRampTarget(target, server_ip, motor_number):
     data = {
         'method' : 'SET',
@@ -629,9 +629,9 @@ def velRampTarget(target, server_ip, motor_number):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 设置梯形运动轨迹目标位置
-# 参数：位置 反馈使能 设备IP 电机号
-# 返回 位置 速度 电流
+# AIOS Set the target position of the trapezoidal motion track
+# parameter: position,reply enable,server ip,motor number
+# return position, velocity, current
 def trapezoidalMove(position, reply_enable, server_ip, motor_number):
     data = {
         'method' : 'SET',
@@ -658,9 +658,9 @@ def trapezoidalMove(position, reply_enable, server_ip, motor_number):
             print("Didn't receive anymore data! [Timeout]")
 
 
-# AIOS 位置控制
-# 参数：目标位置 速度前馈 电流前馈 设备IP 电机号
-# 返回 位置 速度 电流
+# AIOS position control
+# paramter: position,velocity,current feedforward,serverIP,motor number
+# return position, velocity, current
 def setPosition(position, velocity_ff, current_ff, reply_enable, server_ip, motor_number):
     data = {
         'method' : 'SET',
@@ -690,9 +690,9 @@ def setPosition(position, velocity_ff, current_ff, reply_enable, server_ip, moto
     #     except socket.timeout: # fail after 1 second of no activity
     #         print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 速度控制
-# 参数 速度 电流前馈 设备IP 电机号
-# 返回 位置 速度 电流
+# AIOS velocity control
+# paramter: velocity,current feedforward,serverIP,motor number
+# return position, velocity, current
 def setVelocity(velocity, current_ff, reply_enable, server_ip, motor_number):
     data = {
         'method' : 'SET',
@@ -719,9 +719,9 @@ def setVelocity(velocity, current_ff, reply_enable, server_ip, motor_number):
         except socket.timeout: # fail after 1 second of no activity
             print("Didn't receive anymore data! [Timeout]")
 
-# AIOS 电流控制
-# 参数：电流 设备IP 电机号
-# 返回 位置 速度 电流
+# AIOS current control
+# parameter：current, server IP, motor number
+# return position, speed, current
 def setCurrent(current, reply_enable,server_ip, motor_number):
     data = {
         'method' : 'SET',
@@ -766,10 +766,10 @@ def receive_func():
         print("Didn't receive anymore data! [Timeout]")
 
 
-# IO_Module 设置IO_State状态
-# 参数：PWM0_CH PWM1_CH SERVO0 SERVO1
-# 参数取值范围: PWM0_CH,PWM1_CH[0~65535], SERVO0,SERVO1[0~180]
-# 返回 AI0 AI1 DI0 DI1
+# IO_Module set IO_State status
+# parameter：PWM0_CH PWM1_CH SERVO0 SERVO1
+# Parameter value range: PWM0_CH,PWM1_CH[0~65535], SERVO0,SERVO1[0~180]
+# return AI0 AI1 DI0 DI1
 def setIOState(dict, reply_enable, server_ip):
     data = {
         'method' : 'SET',
@@ -793,9 +793,9 @@ def setIOState(dict, reply_enable, server_ip):
         except socket.timeout: # fail after 1 second of no activity
             print("Didn't receive anymore data! [Timeout]")
 
-# IO_Module 获取IO_State状态
-# 返回值PWM0_CH,PWM1_CH[0~65535], SERVO0,SERVO1[0~180]
-# 返回 AI0[0~4096] AI1[0~4096] DI0[0,1] DI1[0,1] PWM0_CH,PWM1_CH[0~65535], SERVO0,SERVO1[0~180]
+# IO_Module get IO_Staten status
+# return data PWM0_CH,PWM1_CH[0~65535], SERVO0,SERVO1[0~180]
+# return AI0[0~4096] AI1[0~4096] DI0[0,1] DI1[0,1] PWM0_CH,PWM1_CH[0~65535], SERVO0,SERVO1[0~180]
 def getIOState(server_ip):
     data = {
         'method' : 'GET',
@@ -812,8 +812,8 @@ def getIOState(server_ip):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# aios 获取network_setting状态
-# 返回值
+# aios get network_setting status
+# return data
 def getNetworkSetting(server_ip):
     data = {
         'method' : 'GET',
@@ -829,8 +829,8 @@ def getNetworkSetting(server_ip):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# aios 设置network_setting状态
-# 返回值
+# aios set network_setting status
+# return data
 def setNetworkSetting(dict, server_ip):
     data = {
         'method' : 'SET',
@@ -857,9 +857,9 @@ def setNetworkSetting(dict, server_ip):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
-# 广播查询局域网下的全部 AIOS
-# 参数：无
-# 返回 成功 失败 超时
+# Braodcast finding all AIOs server under LAN
+# parameter: none
+# return success fail or timeout
 def broadcast_func():
     timeout = 3
     found_server = False
