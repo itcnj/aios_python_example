@@ -23,8 +23,8 @@ def main():
                 'DHCP_enable' : True,
                 'SSID' : 'wifi-name',
                 'password' : 'wifi-password',
-                'staticIP' : [10,0,0,i+10],
-                'gateway' : [10,10,0,1],
+                'staticIP' : [192,168,100,i+10],
+                'gateway' : [192,168,100,1],
                 'subnet' : [255,255,255,0],
                 'dns_1' : [114,114,114,114],
                 'dns_2' : [8,8,8,8]
