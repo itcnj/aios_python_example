@@ -12,7 +12,7 @@ Server_IP_list = []
 
 def main():
 
-    Server_IP_list = aios.broadcast_func()
+    Server_IP_list = aios.multicast_func()
     if Server_IP_list:
 
         encoderIsReady = True
@@ -41,21 +41,20 @@ def main():
                     aios.trapezoidalMove(0, False, Server_IP_list[i], 1)
                 time.sleep( 3 )
 
-                for i in range(24000):
+                for i in range(240000):
                     start = time.time()
-                    pos = np.sin(i*0.002*np.pi)*20000
-                    # pos = pos + 10
-                    # print(pos)
+                    pos = np.sin(i*0.006*np.pi)*20000
                     for j in range(len(Server_IP_list)):
-                        # aios.setPosition(pos, 0, 0, True, Server_IP_list[j], 1)
-                        aios.trapezoidalMove(pos, False, Server_IP_list[j], 1)
-                    # for j in range(len(Server_IP_list)):
-                    #     aios.receive_func()
+                        aios.setPosition(pos, 0, 0, True, Server_IP_list[j], 1)
+                        # aios.trapezoidalMove(pos, False, Server_IP_list[j], 1)
+                    for j in range(len(Server_IP_list)):
+                        aios.receive_func()
 
                     latency = time.time() - start
+                    print(latency*1000)
                     if latency > 0.2:
                         print(Fore.RED + Style.BRIGHT + str(latency))
-                    time.sleep(0.002)
+                    # time.sleep(0.001)
 
 
                 for i in range(len(Server_IP_list)):

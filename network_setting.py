@@ -20,11 +20,11 @@ def main():
 
         for i in range(len(Server_IP_list)):
             dict = {
-                'DHCP_enable' : True,
-                'SSID' : 'TP-LINK_CUI',
-                'password' : '2.718281828',
-                'staticIP' : [192,168,2,i+150],
-                'gateway' : [192,168,2,1],
+                'DHCP_enable' : False,
+                'SSID' : 'AMBER',
+                'password' : 'amber3.1415926',
+                'staticIP' : [10,0,0,i+10],
+                'gateway' : [10,0,0,1],
                 'subnet' : [255,255,255,0],
                 'dns_1' : [114,114,114,114],
                 'dns_2' : [8,8,8,8]

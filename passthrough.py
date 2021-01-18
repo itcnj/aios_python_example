@@ -10,12 +10,12 @@ Server_IP_list = []
 
 def main():
 
-    Server_IP_list = aios.broadcast_func()
+    Server_IP_list = aios.multicast_func()
     if Server_IP_list:
 
-        for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "r vbus_voltage\n")
-        print('\n')
+        # for i in range(len(Server_IP_list)):
+        #     aios.passthrough(Server_IP_list[i], "r vbus_voltage\n")
+        # print('\n')
 
         # for i in range(len(Server_IP_list)):
         #     aios.passthrough(Server_IP_list[i], "r config.dc_bus_undervoltage_trip_level\n")
@@ -40,9 +40,9 @@ def main():
         #     aios.passthrough(Server_IP_list[i], "r axis1.controller.config.vel_ramp_rate\n")
         # print('\n')
 
-        # for i in range(len(Server_IP_list)):
-        #     aios.passthrough(Server_IP_list[i], "r axis1.motor.config.direction\n")
-        # print('\n')
+        for i in range(len(Server_IP_list)):
+            aios.passthrough(Server_IP_list[i], "r axis1.motor.config.direction\n")
+        print('\n')
 
         # for j in range(10000):
         #     for i in range(len(Server_IP_list)):

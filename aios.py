@@ -8,7 +8,14 @@ from math import *
 
 # Initialize the actuator state
 class AxisState(Enum):
+        AXIS_STATE_UNDEFINED = 0
         AXIS_STATE_IDLE = 1
+        AXIS_STATE_STARTUP_SEQUENCE = 2
+        AXIS_STATE_FULL_CALIBRATION_SEQUENCE = 3
+        AXIS_STATE_MOTOR_CALIBRATION = 4
+        AXIS_STATE_SENSORLESS_CONTROL = 5
+        AXIS_STATE_ENCODER_INDEX_SEARCH = 6
+        AXIS_STATE_ENCODER_OFFSET_CALIBRATION = 7
         AXIS_STATE_ENABLE = 8
 
 # Actuator control mode
@@ -30,12 +37,13 @@ s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
 PORT_rt = 2333  # Real-time control data port, ie. speed, position, current and other real-time data
 PORT_srv = 2334 # Low priority service data port. ie, parameter setting and reading
+PORT_pt = 10000 # Passthrough port
 
 
 # s.bind(('', PORT_srv))
 
 network = '<broadcast>'
-network_multicast = '192.168.2.255'
+network_multicast = '255.255.255.255'
 
 print('Listening for broadcast at ', s.getsockname())
 
@@ -333,6 +341,29 @@ def getCVP(server_ip, motor_number):
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
+# AIOS 编码器校准 (初期版本电机编码器需要先校准才能使用，后期完善后不需要此操作)
+# 参数：包括设备IP 电机号
+# 无返回
+def encoderOffsetCalibration(server_ip, motor_number):
+    data = {
+        'method' : 'SET',
+        'reqTarget' : '/m0/requested_state',
+        'property' : AxisState.AXIS_STATE_ENCODER_OFFSET_CALIBRATION.value
+        # 'property' : AxisState.AXIS_STATE_FULL_CALIBRATION_SEQUENCE.value
+    }
+    if motor_number == 0:
+        data['reqTarget'] = '/m0/requested_state'
+    elif motor_number == 1:
+        data['reqTarget'] = '/m1/requested_state'
+    json_str = json.dumps(data)
+    print ("Send JSON Obj:", json_str)
+    s.sendto(str.encode(json_str), (server_ip, PORT_srv))
+    try:
+        data, address = s.recvfrom(1024)
+        print('Server received from {}:{}'.format(address, data.decode('utf-8')))
+        json_obj = json.loads(data.decode('utf-8'))
+    except socket.timeout: # fail after 1 second of no activity
+        print("Didn't receive anymore data! [Timeout]")
 
 # AIOS 获取编码器是否准备好 (如果没有准备好 则执行编码器校准)
 # 参数：包括设备IP 电机号
@@ -862,18 +893,30 @@ def setNetworkSetting(dict, server_ip):
 # 无返回
 def passthrough(server_ip, tx_messages):
     data = {
-        'method' : 'SET',
+        'method' : 'GET',
         'reqTarget' : '/passthrough',
         'tx_messages' : ''
     }
     data['tx_messages'] = tx_messages
     json_str = json.dumps(data)
     print ("Send JSON Obj:", json_str)
-    s.sendto(str.encode(json_str), (server_ip, PORT_srv))
+    s.sendto(str.encode(json_str), (server_ip, PORT_rt))
     try:
         data, address = s.recvfrom(1024)
         print('Server received from {}:{}'.format(address, data.decode('utf-8')))
         json_obj = json.loads(data.decode('utf-8'))
+    except socket.timeout: # fail after 1 second of no activity
+        print("Didn't receive anymore data! [Timeout]")
+
+# AIOS passthrough pt_port
+# 参数：包括设备IP 电机号
+# 无返回
+def passthrough_pt(server_ip, tx_messages):
+    print ("Send Data:", tx_messages)
+    s.sendto(tx_messages.encode('ascii'), (server_ip, PORT_pt))
+    try:
+        data, address = s.recvfrom(1024)
+        print('Server received from {}:{}'.format(address, data.decode('utf-8')))
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
         
