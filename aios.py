@@ -35,7 +35,8 @@ PORT_srv = 2334 # Low priority service data port. ie, parameter setting and read
 # s.bind(('', PORT_srv))
 
 network = '<broadcast>'
-network_multicast = '10.0.0.255'
+network_multicast = '255.255.255.255'
+# network_multicast = '10.0.0.255'
 
 print('Listening for broadcast at ', s.getsockname())
 
