@@ -10,7 +10,8 @@ delay_list = [1, 1, 1, 1, 1, 2, 1]
 
 def main():
 
-    Server_IP_list = aios.broadcast_func()
+    # Server_IP_list = aios.broadcast_func()
+    Server_IP_list = aios.multicast_func()
     if Server_IP_list:
 
         encoderIsReady = True

@@ -8,7 +8,8 @@ Server_IP_list = []
 
 def main():
 
-    Server_IP_list = aios.broadcast_func()
+    # Server_IP_list = aios.broadcast_func()
+    Server_IP_list = aios.multicast_func()
     if Server_IP_list:
 
         for i in range(10000):
