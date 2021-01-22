@@ -34,9 +34,7 @@ PORT_srv = 2334 # Low priority service data port. ie, parameter setting and read
 
 # s.bind(('', PORT_srv))
 
-network = '<broadcast>'
-network_multicast = '255.255.255.255'
-# network_multicast = '10.0.0.255'
+network = '10.0.0.255'
 
 print('Listening for broadcast at ', s.getsockname())
 
@@ -871,36 +869,6 @@ def broadcast_func():
     print('\n')
 
     start = time.time();
-    while True:
-        try:
-            data, address = s.recvfrom(1024)
-            address_list.append(address[0])
-            print('Server received from {}:{}'.format(address, data.decode('utf-8')))
-            json_obj = json.loads(data.decode('utf-8'))
-            found_server = True
-        except socket.timeout: # fail after 1 second of no activity
-            if found_server:
-                print('\n')
-                print('found servers')
-                print(address_list)
-                print('lookup Finished! \n')
-                time.sleep(2)
-                return address_list
-            else:
-                print("Do not have any server! [Timeout] \n")
-                return False
-            break
-
-    print('\n')
-
-
-def multicast_func():
-    found_server = False
-    address_list = []
-
-    s.sendto('Is any AIOS server here?'.encode('utf-8'), (network_multicast, PORT_srv))
-    print('\n')
-
     while True:
         try:
             data, address = s.recvfrom(1024)

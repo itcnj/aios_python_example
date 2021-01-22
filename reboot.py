@@ -8,8 +8,8 @@ Server_IP_list = []
 
 def main():
 
-    # Server_IP_list = aios.broadcast_func()
-    Server_IP_list = aios.multicast_func()
+    Server_IP_list = aios.broadcast_func()
+    
     if Server_IP_list:
 
         for i in range(len(Server_IP_list)):
@@ -20,8 +20,8 @@ def main():
             # aios.rebootMotorDrive(Server_IP_list[i])
         print('\n')
 
-    #     # Server_IP_list = aios.broadcast_func()
-    Server_IP_list = aios.multicast_func()
+    #     Server_IP_list = aios.broadcast_func()
+    
 
 
 
