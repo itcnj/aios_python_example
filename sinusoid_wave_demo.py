@@ -54,6 +54,7 @@ def main():
                         aios.receive_func()
 
                     latency = time.time() - start
+                    print(latency)
                     if latency > 0.2:
                         print(Fore.RED + Style.BRIGHT + str(latency))
                     time.sleep(0.001)
