@@ -20,7 +20,7 @@ def main():
 
         for i in range(len(Server_IP_list)):
             dict = {
-                'DHCP_enable' : False,
+                'DHCP_enable' : True,
                 'SSID' : 'AMBER',
                 'password' : 'amber3.1415926',
                 'staticIP' : [10,0,0,i+10],
@@ -33,7 +33,13 @@ def main():
         print('\n')
         time.sleep(1)
 
+        for i in range(len(Server_IP_list)):
+            aios.getNetworkSetting(Server_IP_list[i])
+        print('\n')
+
 
 
 if __name__ == '__main__':
     main()
+
+

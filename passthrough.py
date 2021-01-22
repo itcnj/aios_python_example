@@ -40,10 +40,13 @@ def main():
         #     aios.passthrough(Server_IP_list[i], "r axis1.controller.config.vel_ramp_rate\n")
         # print('\n')
 
-        for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "r axis1.motor.config.direction\n")
-        print('\n')
+        # for i in range(len(Server_IP_list)):
+        #     aios.passthrough(Server_IP_list[i], "r axis1.motor.config.direction\n")
+        # print('\n')
 
+        for i in range(len(Server_IP_list)):
+            aios.passthrough(Server_IP_list[i], "r axis1.motor.get_inverter_temp\n")
+        print('\n')
         # for j in range(10000):
         #     for i in range(len(Server_IP_list)):
         #         start = time.time()

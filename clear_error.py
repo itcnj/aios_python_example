@@ -17,9 +17,7 @@ def main():
 
         for i in range(len(Server_IP_list)):
             aios.getError(Server_IP_list[i], 1)
-            aios.getError(Server_IP_list[i], 0)
             aios.clearError(Server_IP_list[i], 1)
-            aios.clearError(Server_IP_list[i], 0)
         print('\n')
 
 
