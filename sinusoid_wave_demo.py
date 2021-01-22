@@ -44,7 +44,7 @@ def main():
 
                 for i in range(24000):
                     start = time.time()
-                    pos = np.sin(i*0.006*np.pi)*20000
+                    pos = np.sin(i*0.004*np.pi)*20000
                     # pos = pos + 10
                     # print(pos)
                     for j in range(len(Server_IP_list)):
