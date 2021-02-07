@@ -34,7 +34,8 @@ PORT_srv = 2334 # Low priority service data port. ie, parameter setting and read
 
 # s.bind(('', PORT_srv))
 
-network = '10.0.0.255'
+#network = '10.0.0.255'
+network = '255.255.255.255'
 
 print('Listening for broadcast at ', s.getsockname())
 
@@ -839,6 +840,7 @@ def setNetworkSetting(dict, server_ip):
     data['DHCP_enable'] = dict['DHCP_enable']
     data['SSID'] = dict['SSID']
     data['password'] = dict['password']
+    data['name'] = dict['name']
     if dict['DHCP_enable'] == False:
         data['staticIP'] = dict['staticIP']
         data['gateway'] = dict['gateway']

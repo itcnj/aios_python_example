@@ -21,8 +21,9 @@ def main():
         for i in range(len(Server_IP_list)):
             dict = {
                 'DHCP_enable' : True,
-                'SSID' : 'wifi-name',
-                'password' : 'wifi-password',
+                'SSID' : 'your-ssid',
+                'password' : 'your-password',
+                'name' : "new actuator",
                 'staticIP' : [192,168,100,i+10],
                 'gateway' : [192,168,100,1],
                 'subnet' : [255,255,255,0],
