@@ -19,10 +19,12 @@ def main():
         time.sleep(1)
 
         for i in range(len(Server_IP_list)):
+            name = 'AXIS-'+str(i)
             dict = {
                 'DHCP_enable' : True,
                 'SSID' : 'AMBER',
                 'password' : 'amber3.1415926',
+                'name' : name,
                 'staticIP' : [10,0,0,i+10],
                 'gateway' : [10,0,0,1],
                 'subnet' : [255,255,255,0],

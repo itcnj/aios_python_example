@@ -348,8 +348,8 @@ def encoderOffsetCalibration(server_ip, motor_number):
     data = {
         'method' : 'SET',
         'reqTarget' : '/m0/requested_state',
-        'property' : AxisState.AXIS_STATE_ENCODER_OFFSET_CALIBRATION.value
-        # 'property' : AxisState.AXIS_STATE_FULL_CALIBRATION_SEQUENCE.value
+        # 'property' : AxisState.AXIS_STATE_ENCODER_OFFSET_CALIBRATION.value
+        'property' : AxisState.AXIS_STATE_FULL_CALIBRATION_SEQUENCE.value
     }
     if motor_number == 0:
         data['reqTarget'] = '/m0/requested_state'
@@ -871,6 +871,7 @@ def setNetworkSetting(dict, server_ip):
     data['DHCP_enable'] = dict['DHCP_enable']
     data['SSID'] = dict['SSID']
     data['password'] = dict['password']
+    data['name'] = dict['name']
     if dict['DHCP_enable'] == False:
         data['staticIP'] = dict['staticIP']
         data['gateway'] = dict['gateway']

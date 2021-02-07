@@ -3,7 +3,7 @@ import time
 import threading
 import numpy as np
 
-Server_IP_list = ['192.168.5.160']
+Server_IP_list = ['192.168.5.63']
 # Server_IP_list = []
 
 
