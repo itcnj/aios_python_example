@@ -3,7 +3,7 @@ import time
 import threading
 import numpy as np
 
-Server_IP_list = ['192.168.5.90']
+Server_IP_list = ['192.168.5.81']
 
 
 
@@ -75,6 +75,7 @@ def main():
             aios.passthrough(Server_IP_list[i], "r axis1.trap_traj.config.vel_limit\n")
             aios.passthrough(Server_IP_list[i], "r axis1.trap_traj.config.accel_limit\n")
             aios.passthrough(Server_IP_list[i], "r axis1.trap_traj.config.decel_limit\n")
+            aios.passthrough(Server_IP_list[i], "r axis1.trap_traj.config.A_per_css\n")
 
         print('\n')
 

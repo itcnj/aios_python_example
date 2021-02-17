@@ -10,6 +10,7 @@ Server_IP_list = []
 def main():
 
     Server_IP_list = aios.broadcast_func()
+    
     if Server_IP_list:
 
         # for j in range(200):

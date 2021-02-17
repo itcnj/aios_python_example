@@ -9,6 +9,7 @@ Server_IP_list = ['192.168.5.90']
 def main():
 
     Server_IP_list = aios.broadcast_func()
+    
     if Server_IP_list:
 
         for i in range(len(Server_IP_list)):
