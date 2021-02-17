@@ -43,7 +43,7 @@ PORT_pt = 10000 # Passthrough port
 # s.bind(('', PORT_srv))
 
 network = '<broadcast>'
-network_multicast = '255.255.255.255'
+network_multicast = '192.168.2.255'
 
 print('Listening for broadcast at ', s.getsockname())
 

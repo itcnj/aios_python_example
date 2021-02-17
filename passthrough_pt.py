@@ -10,7 +10,7 @@ Server_IP_list = ['192.168.5.63']
 
 def main():
 
-    # Server_IP_list = aios.multicast_func()
+    Server_IP_list = aios.multicast_func()
     if Server_IP_list:
 
         for j in range(10000):
