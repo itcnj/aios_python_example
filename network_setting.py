@@ -22,8 +22,10 @@ def main():
             name = 'AXIS-'+str(i)
             dict = {
                 'DHCP_enable' : True,
-                'SSID' : 'AMBER',
-                'password' : 'amber3.1415926',
+                # 'SSID' : 'AMBER',
+                # 'password' : 'amber3.1415926',
+                'SSID' : 'TP-LINK_CUI',
+                'password' : '2.718281828',
                 'name' : name,
                 'staticIP' : [10,0,0,i+10],
                 'gateway' : [10,0,0,1],

@@ -22,7 +22,7 @@ def main():
         print('\n')
 
         dict = {
-            'dc_bus_overvoltage_trip_level' : 50,
+            'dc_bus_overvoltage_trip_level' : 55,
             'dc_bus_undervoltage_trip_level' : 10,
         }
         for i in range(len(Server_IP_list)):
@@ -31,7 +31,7 @@ def main():
 
         for i in range(len(Server_IP_list)):
             aios.saveConfig(Server_IP_list[i])
-            aios.rebootMotorDrive(Server_IP_list[i])
+            # aios.rebootMotorDrive(Server_IP_list[i])
 
         print('\n')
         time.sleep(2)

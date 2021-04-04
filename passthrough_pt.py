@@ -16,7 +16,7 @@ def main():
         for j in range(10000):
             for i in range(len(Server_IP_list)):
                 start = time.time()
-                aios.passthrough_pt(Server_IP_list[i], "p 1 0.0 0.0 0.0\nf 1\n")
+                aios.passthrough_pt(Server_IP_list[i], "f 1\n")
                 latency = time.time() - start
                 print(latency*1000)
             print('\n')

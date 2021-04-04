@@ -4,7 +4,7 @@ import threading
 import numpy as np
 import json
 
-Server_IP_list = []
+Server_IP_list = ['192.168.5.59']
 
 def main():
 
@@ -13,11 +13,14 @@ def main():
     if Server_IP_list:
 
         for i in range(10000):
+            start = time.time()
             for i in range(len(Server_IP_list)):
                 cvp = aios.getCVP(Server_IP_list[i], 1)
                 print("Position = %.2f, Velocity = %.0f, Current = %.4f" %(cvp[0], cvp[1], cvp[2]))
+            latency = time.time() - start
+            print(latency*1000)
 
-            time.sleep(0.02)
+            time.sleep(0.1)
 
 
 

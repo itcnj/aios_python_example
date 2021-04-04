@@ -28,8 +28,8 @@ def main():
         dict = {
             'current_lim' : 8,
             'current_lim_margin' : 5,
-            'inverter_temp_limit_lower' : 90,
-            'inverter_temp_limit_upper' : 120,
+            'inverter_temp_limit_lower' : 80,
+            'inverter_temp_limit_upper' : 90,
             'requested_current_range' : 30,
             'current_control_bandwidth' : 500,
         }

@@ -44,6 +44,7 @@ PORT_pt = 10000 # Passthrough port
 
 #network = '10.0.0.255'
 network = '255.255.255.255'
+# network = '192.168.2.255'
 
 print('Listening for broadcast at ', s.getsockname())
 
@@ -348,8 +349,8 @@ def encoderOffsetCalibration(server_ip, motor_number):
     data = {
         'method' : 'SET',
         'reqTarget' : '/m0/requested_state',
-        # 'property' : AxisState.AXIS_STATE_ENCODER_OFFSET_CALIBRATION.value
-        'property' : AxisState.AXIS_STATE_FULL_CALIBRATION_SEQUENCE.value
+        'property' : AxisState.AXIS_STATE_ENCODER_OFFSET_CALIBRATION.value
+        # 'property' : AxisState.AXIS_STATE_FULL_CALIBRATION_SEQUENCE.value
     }
     if motor_number == 0:
         data['reqTarget'] = '/m0/requested_state'
@@ -905,7 +906,7 @@ def passthrough(server_ip, tx_messages):
     try:
         data, address = s.recvfrom(1024)
         print('Server received from {}:{}'.format(address, data.decode('utf-8')))
-        json_obj = json.loads(data.decode('utf-8'))
+        # json_obj = json.loads(data.decode('utf-8'))
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
@@ -918,6 +919,7 @@ def passthrough_pt(server_ip, tx_messages):
     try:
         data, address = s.recvfrom(1024)
         print('Server received from {}:{}'.format(address, data.decode('utf-8')))
+        # print('Server received from {}:{}'.format(address, data.hex()))
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
         
@@ -928,18 +930,20 @@ def broadcast_func():
     timeout = 3
     found_server = False
     address_list = []
-    i = 0
 
+    start = time.time()
     s.sendto('Is any AIOS server here?'.encode('utf-8'), (network, PORT_srv))
     print('\n')
 
-    start = time.time();
+    
     while True:
         try:
             data, address = s.recvfrom(1024)
+            latency = time.time() - start
+            print(latency*1000)
             address_list.append(address[0])
             print('Server received from {}:{}'.format(address, data.decode('utf-8')))
-            json_obj = json.loads(data.decode('utf-8'))
+            # json_obj = json.loads(data.decode('utf-8'))
             found_server = True
         except socket.timeout: # fail after 1 second of no activity
             if found_server:
@@ -955,3 +959,22 @@ def broadcast_func():
             break
 
     print('\n')
+
+
+def getRootTest(server_ip):
+    data = {
+        'method' : 'GET',
+        'reqTarget' : '/m1/trap_traj',
+    }
+    json_str = json.dumps(data)
+    print ("Send JSON Obj:", json_str)
+    s.sendto(str.encode(json_str), (server_ip, PORT_srv))
+
+def getRootTest_2(server_ip):
+    data = {
+        'method' : 'GET',
+        'reqTarget' : '/m1/CVP',
+    }
+    json_str = json.dumps(data)
+    print ("Send JSON Obj:", json_str)
+    s.sendto(str.encode(json_str), (server_ip, PORT_rt))
