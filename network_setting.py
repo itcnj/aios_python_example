@@ -18,24 +18,24 @@ def main():
         print('\n')
         time.sleep(1)
 
-        for i in range(len(Server_IP_list)):
-            name = 'AXIS-'+str(i)
-            dict = {
-                'DHCP_enable' : True,
-                # 'SSID' : 'AMBER',
-                # 'password' : 'amber3.1415926',
-                'SSID' : 'TP-LINK_CUI',
-                'password' : '2.718281828',
-                'name' : name,
-                'staticIP' : [10,0,0,i+10],
-                'gateway' : [10,0,0,1],
-                'subnet' : [255,255,255,0],
-                'dns_1' : [114,114,114,114],
-                'dns_2' : [8,8,8,8]
-            }
-            aios.setNetworkSetting(dict, Server_IP_list[i])
-        print('\n')
-        time.sleep(1)
+        # for i in range(len(Server_IP_list)):
+        #     name = 'AXIS-'+str(i)
+        #     dict = {
+        #         'DHCP_enable' : True,
+        #         'SSID' : 'AMBER',
+        #         'password' : 'amber3.1415926',
+        #         # 'SSID' : 'TP-LINK_CUI',
+        #         # 'password' : '2.718281828',
+        #         'name' : name,
+        #         'staticIP' : [10,0,0,i+10],
+        #         'gateway' : [10,0,0,1],
+        #         'subnet' : [255,255,255,0],
+        #         'dns_1' : [114,114,114,114],
+        #         'dns_2' : [8,8,8,8]
+        #     }
+        #     aios.setNetworkSetting(dict, Server_IP_list[i])
+        # print('\n')
+        # time.sleep(1)
 
         for i in range(len(Server_IP_list)):
             aios.getNetworkSetting(Server_IP_list[i])

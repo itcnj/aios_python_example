@@ -13,12 +13,12 @@ def main():
     if Server_IP_list:
 
 
-        for i in range(len(Server_IP_list)):
+        # for i in range(len(Server_IP_list)):
             # aios.passthrough(Server_IP_list[i], "w config.dc_bus_undervoltage_trip_level 10.0\n")
             # aios.passthrough(Server_IP_list[i], "w config.dc_bus_overvoltage_trip_level 55.0\n")
             # aios.passthrough(Server_IP_list[i], "w axis1.motor.config.pre_calibrated 1\n")
-            aios.passthrough(Server_IP_list[i], "w axis1.motor.config.pole_pairs 21\n")
-            aios.passthrough(Server_IP_list[i], "w axis1.encoder.config.bandwidth 2000\n")
+            # aios.passthrough(Server_IP_list[i], "w axis1.motor.config.pole_pairs 21\n")
+            # aios.passthrough(Server_IP_list[i], "w axis1.encoder.config.bandwidth 2000\n")
             # aios.passthrough(Server_IP_list[i], "w axis1.motor.config.direction -1\n")
             # aios.passthrough(Server_IP_list[i], "w axis1.motor.config.calibration_current 5.0\n")
             # aios.passthrough(Server_IP_list[i], "w axis1.motor.config.resistance_calib_max_voltage 4.0\n")
@@ -44,7 +44,9 @@ def main():
             # aios.passthrough(Server_IP_list[i], "w axis1.trap_traj.config.vel_limit 200000.0\n")
             # aios.passthrough(Server_IP_list[i], "w axis1.trap_traj.config.accel_limit 320000.0\n")
             # aios.passthrough(Server_IP_list[i], "w axis1.trap_traj.config.decel_limit 320000.0\n")
-        print('\n')
+
+            # aios.passthrough(Server_IP_list[i], "se\n") # reboot motor drive
+        # print('\n')
 
 
 
@@ -52,7 +54,7 @@ def main():
             # aios.passthrough(Server_IP_list[i], "r config.dc_bus_undervoltage_trip_level\n")
             # aios.passthrough(Server_IP_list[i], "r config.dc_bus_overvoltage_trip_level\n")
             # aios.passthrough(Server_IP_list[i], "r axis1.motor.config.pre_calibrated\n")
-            # aios.passthrough(Server_IP_list[i], "r axis1.motor.config.pole_pairs\n")
+            aios.passthrough(Server_IP_list[i], "r axis1.motor.config.pole_pairs\n")
             # aios.passthrough(Server_IP_list[i], "r axis1.motor.config.direction\n")
             aios.passthrough(Server_IP_list[i], "r axis1.encoder.config.bandwidth\n")
             # aios.passthrough(Server_IP_list[i], "r axis1.motor.config.calibration_current\n")
@@ -77,7 +79,7 @@ def main():
             aios.passthrough(Server_IP_list[i], "r axis1.motor.config.inverter_temp_limit_lower\n")
             aios.passthrough(Server_IP_list[i], "r axis1.motor.config.inverter_temp_limit_upper\n")
 
-            # aios.passthrough(Server_IP_list[i], "r axis1.encoder.config.cpr\n")
+            aios.passthrough(Server_IP_list[i], "r axis1.encoder.config.cpr\n")
 
             # aios.passthrough(Server_IP_list[i], "r axis1.trap_traj.config.vel_limit\n")
             # aios.passthrough(Server_IP_list[i], "r axis1.trap_traj.config.accel_limit\n")
