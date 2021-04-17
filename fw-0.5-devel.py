@@ -17,21 +17,21 @@ def main():
         #     aios.passthrough(Server_IP_list[i], "r vbus_voltage\n")
         # print('\n')
      
-        for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "r axis1.encoder.is_ready\n")
-        print('\n')
+        # for i in range(len(Server_IP_list)):
+        #     aios.passthrough(Server_IP_list[i], "r axis1.encoder.is_ready\n")
+        # print('\n')
 
         # for i in range(len(Server_IP_list)):
         #     aios.passthrough(Server_IP_list[i], "r config.dc_bus_undervoltage_trip_level\n")
         # print('\n')
 
-        for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "r axis1.encoder.count_in_cpr\n")
-        print('\n')
+        # for i in range(len(Server_IP_list)):
+        #     aios.passthrough(Server_IP_list[i], "r axis1.encoder.count_in_cpr\n")
+        # print('\n')
 
-        for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "r axis1.encoder.config.offset\n")
-        print('\n')
+        # for i in range(len(Server_IP_list)):
+        #     aios.passthrough(Server_IP_list[i], "r axis1.encoder.config.offset\n")
+        # print('\n')
 
         
 
@@ -204,7 +204,9 @@ def main():
         #     print('\n')
         #     time.sleep(0.01)
 
-
+        for i in range(len(Server_IP_list)):
+            aios.passthrough(Server_IP_list[i], "c 1 0.0\n")
+        print('\n')
 
 
 

@@ -17,8 +17,12 @@ def main():
             aios.getRoot(Server_IP_list[i])
 
         for i in range(len(Server_IP_list)):
-            aios.getError(Server_IP_list[i], 1)
-            aios.clearError(Server_IP_list[i], 1)
+            aios.passthrough(Server_IP_list[i], "r axis1.error\n")
+            aios.passthrough(Server_IP_list[i], "r axis1.encoder.error\n")
+            aios.passthrough(Server_IP_list[i], "r axis1.motor.error\n")
+            aios.passthrough(Server_IP_list[i], "r axis1.controller.error\n")
+
+            aios.passthrough(Server_IP_list[i], "w axis1.error 0\n")
         print('\n')
 
 
