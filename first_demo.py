@@ -29,11 +29,11 @@ def main():
         # print('\n')
 
         encoderIsReady = True
-        # for i in range(len(Server_IP_list)):
-        #     if (not aios.encoderIsReady(Server_IP_list[i], 1)):
-        #         encoderIsReady = False
+        for i in range(len(Server_IP_list)):
+            if (not aios.encoderIsReady(Server_IP_list[i], 1)):
+                encoderIsReady = False
 
-        # print('\n')
+        print('\n')
 
         if encoderIsReady:
             for i in range(len(Server_IP_list)):

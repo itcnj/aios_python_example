@@ -3,7 +3,7 @@ import time
 import threading
 import numpy as np
 
-Server_IP_list = ['192.168.3.3']
+Server_IP_list = ['192.168.2.40']
 # Server_IP_list = []
 
 
@@ -13,27 +13,37 @@ def main():
     # Server_IP_list = aios.broadcast_func()
     if Server_IP_list:
 
-        # for i in range(len(Server_IP_list)):
-        #     aios.passthrough(Server_IP_list[i], "r vbus_voltage\n")
-        # print('\n')
+        for i in range(len(Server_IP_list)):
+            aios.passthrough(Server_IP_list[i], "r vbus_voltage\n")
+        print('\n')
      
-        # for i in range(len(Server_IP_list)):
-        #     aios.passthrough(Server_IP_list[i], "r axis1.encoder.is_ready\n")
-        # print('\n')
+        for i in range(len(Server_IP_list)):
+            aios.passthrough(Server_IP_list[i], "r axis1.encoder.is_ready\n")
+        print('\n')
 
-        # for i in range(len(Server_IP_list)):
-        #     aios.passthrough(Server_IP_list[i], "r config.dc_bus_undervoltage_trip_level\n")
-        # print('\n')
+        for i in range(len(Server_IP_list)):
+            aios.passthrough(Server_IP_list[i], "r config.dc_bus_undervoltage_trip_level\n")
+        print('\n')
 
-        # for i in range(len(Server_IP_list)):
-        #     aios.passthrough(Server_IP_list[i], "r axis1.encoder.count_in_cpr\n")
-        # print('\n')
+        for i in range(len(Server_IP_list)):
+            aios.passthrough(Server_IP_list[i], "r axis1.encoder.count_in_cpr\n")
+        print('\n')
 
-        # for i in range(len(Server_IP_list)):
-        #     aios.passthrough(Server_IP_list[i], "r axis1.encoder.config.offset\n")
-        # print('\n')
+        for i in range(len(Server_IP_list)):
+            aios.passthrough(Server_IP_list[i], "r axis1.encoder.config.offset\n")
+        print('\n')
 
-        
+        for i in range(len(Server_IP_list)):
+            aios.passthrough(Server_IP_list[i], "r axis1.encoder.is_ready\n")
+        print('\n')
+
+        for i in range(len(Server_IP_list)):
+            aios.passthrough(Server_IP_list[i], "w axis1.encoder.config.offset 1000\n")
+        print('\n')
+
+        for i in range(len(Server_IP_list)):
+            aios.passthrough(Server_IP_list[i], "w axis1.encoder.is_ready 1\n")
+        print('\n')
 
         # for i in range(len(Server_IP_list)):
         #     aios.passthrough(Server_IP_list[i], "w axis1.requested_state 3\n")
@@ -204,9 +214,9 @@ def main():
         #     print('\n')
         #     time.sleep(0.01)
 
-        for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "c 1 0.0\n")
-        print('\n')
+        # for i in range(len(Server_IP_list)):
+        #     aios.passthrough(Server_IP_list[i], "c 1 0.0\n")
+        # print('\n')
 
 
 
