@@ -16,7 +16,7 @@ def main():
             aios.getRoot(Server_IP_list[i])
 
         for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "sr\n")
+            aios.reboot(Server_IP_list[i])
         print('\n')
 
     #     Server_IP_list = aios.broadcast_func()

@@ -16,7 +16,7 @@ def main():
             start = time.time()
             for i in range(len(Server_IP_list)):
                 cvp = aios.getCVP(Server_IP_list[i], 1)
-                print("Position = %.2f, Velocity = %.0f, Current = %.4f" %(cvp[0], cvp[1], cvp[2]))
+                print("Position = %f, Velocity = %f, Current = %.4f" %(cvp[0], cvp[1], cvp[2]))
             latency = time.time() - start
             print(latency*1000)
 

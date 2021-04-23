@@ -25,7 +25,7 @@ def main():
             aios.encoderIsReady(Server_IP_list[i], 1)
         print('\n')
         for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "ss\n")
+            aios.saveConfig(Server_IP_list[i])
         print('\n')
 
 

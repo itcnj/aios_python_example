@@ -42,11 +42,12 @@ def main():
                     aios.trapezoidalMove(0, False, Server_IP_list[i], 1)
                 time.sleep( 3 )
 
-                for i in range(4200):
+                for i in range(1200):
                     start = time.time()
-                    pos = np.sin(i*0.006*np.pi)*1.0
+                    pos = np.sin(i*0.009*np.pi)*1
                     for j in range(len(Server_IP_list)):
-                        aios.passthrough_pt(Server_IP_list[j], 'p 1 {0:f}\nf 1\n'.format(pos))
+                        aios.passthrough_pt(Server_IP_list[j], 'p 1 {0:f}\n'.format(pos))
+                        # aios.passthrough_pt(Server_IP_list[j], 'f 1\n')
                         # aios.setPosition(pos, 0, 0, True, Server_IP_list[j], 1)
                         # aios.trapezoidalMove(pos, False, Server_IP_list[j], 1)
                     # for j in range(len(Server_IP_list)):
@@ -56,7 +57,7 @@ def main():
                     print(latency*1000)
                     if latency > 0.2:
                         print(Fore.RED + Style.BRIGHT + str(latency))
-                    time.sleep(0.001)
+                    time.sleep(0.002)
 
 
                 for i in range(len(Server_IP_list)):

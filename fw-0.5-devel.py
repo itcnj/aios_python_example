@@ -33,20 +33,21 @@ def main():
             aios.passthrough(Server_IP_list[i], "r axis1.encoder.config.offset\n")
         print('\n')
 
-        for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "r axis1.encoder.is_ready\n")
-        print('\n')
-
-        for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "w axis1.encoder.config.offset 1000\n")
-        print('\n')
-
-        for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "w axis1.encoder.is_ready 1\n")
-        print('\n')
 
         # for i in range(len(Server_IP_list)):
-        #     aios.passthrough(Server_IP_list[i], "w axis1.requested_state 3\n")
+        #     aios.passthrough(Server_IP_list[i], "w axis1.encoder.config.offset 1000\n")
+        # print('\n')
+
+        # for i in range(len(Server_IP_list)):
+        #     aios.passthrough(Server_IP_list[i], "w axis1.encoder.is_ready 1\n")
+        # print('\n')
+
+        # for i in range(len(Server_IP_list)):
+        #     aios.passthrough(Server_IP_list[i], "w config.uart_baudrate 2000000\n")
+        # print('\n')
+
+        # for i in range(len(Server_IP_list)):
+        #     aios.passthrough(Server_IP_list[i], "ss\n") # save motor drive config
         # print('\n')
 
 
@@ -204,6 +205,10 @@ def main():
         # for i in range(len(Server_IP_list)):
         #     aios.passthrough(Server_IP_list[i], "r axis1.controller.error\n")
         # print('\n')
+
+        for i in range(len(Server_IP_list)):
+            aios.passthrough(Server_IP_list[i], "r config.uart_baudrate\n")
+        print('\n')
 
         # for j in range(1000):
         #     for i in range(len(Server_IP_list)):
