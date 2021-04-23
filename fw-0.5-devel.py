@@ -210,14 +210,14 @@ def main():
             aios.passthrough(Server_IP_list[i], "r config.uart_baudrate\n")
         print('\n')
 
-        # for j in range(1000):
-        #     for i in range(len(Server_IP_list)):
-        #         start = time.time()
-        #         aios.passthrough_pt(Server_IP_list[i], "f 1\n")
-        #         latency = time.time() - start
-        #         print(latency*1000)
-        #     print('\n')
-        #     time.sleep(0.01)
+        for j in range(1000):
+            for i in range(len(Server_IP_list)):
+                start = time.time()
+                aios.passthrough_pt(Server_IP_list[i], "f 1\n")
+                latency = time.time() - start
+                print(latency*1000)
+            print('\n')
+            time.sleep(0.01)
 
         # for i in range(len(Server_IP_list)):
         #     aios.passthrough(Server_IP_list[i], "c 1 0.0\n")
