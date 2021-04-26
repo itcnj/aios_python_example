@@ -17,7 +17,7 @@ def main():
             aios.passthrough(Server_IP_list[i], "w config.dc_bus_undervoltage_trip_level 10.0\n")
             aios.passthrough(Server_IP_list[i], "w config.dc_bus_overvoltage_trip_level 55.0\n")
             aios.passthrough(Server_IP_list[i], "w axis1.motor.config.pre_calibrated 1\n")
-            aios.passthrough(Server_IP_list[i], "w axis1.motor.config.pole_pairs 10\n")
+            aios.passthrough(Server_IP_list[i], "w axis1.motor.config.pole_pairs 7\n")
             aios.passthrough(Server_IP_list[i], "w axis1.encoder.config.bandwidth 2000\n")
             aios.passthrough(Server_IP_list[i], "w axis1.motor.config.direction -1\n")
             aios.passthrough(Server_IP_list[i], "w axis1.motor.config.calibration_current 5.0\n")
