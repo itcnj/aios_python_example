@@ -42,9 +42,9 @@ PORT_pt = 10000 # Passthrough port
 
 # s.bind(('', PORT_srv))
 
-network = '10.0.0.255'
+# network = '10.0.0.255'
 # network = '255.255.255.255'
-# network = '192.168.2.255'
+network = '192.168.2.255'
 
 print('Listening for broadcast at ', s.getsockname())
 
@@ -779,6 +779,29 @@ def setCurrent(current, reply_enable,server_ip, motor_number):
             print("Didn't receive anymore data! [Timeout]")
 
 
+# AIOS get count_in_cpr
+# Param: Server IP
+# no return
+def getCountInCpr(server_ip):
+    data = {
+        'method' : 'GET',
+        'reqTarget' : '/passthrough',
+        'tx_messages' : 'r axis1.encoder.count_in_cpr\n'
+    }
+    json_str = json.dumps(data)
+    print ("Send JSON Obj:", json_str)
+    s.sendto(str.encode(json_str), (server_ip, PORT_rt))
+    try:
+        data, address = s.recvfrom(1024)
+        print('Server received from {}:{}'.format(address, data.decode('utf-8')))
+        json_obj = json.loads(data.decode('utf-8'))
+        count_in_cpr = int(json_obj.get('rx_messages'))
+        print("count_in_cpr = %d\n" %(count_in_cpr))
+        return count_in_cpr
+    except socket.timeout: # fail after 1 second of no activity
+        print("Didn't receive anymore data! [Timeout]")
+
+
 def dum_func(server_ip):
     data = {
         'method' : 'XET',
@@ -906,7 +929,6 @@ def passthrough(server_ip, tx_messages):
     try:
         data, address = s.recvfrom(1024)
         print('Server received from {}:{}'.format(address, data.decode('utf-8')))
-        # json_obj = json.loads(data.decode('utf-8'))
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 
