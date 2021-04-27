@@ -10,7 +10,7 @@ Server_IP_list = ['192.168.5.48']
 
 def main():
 
-    # Server_IP_list = aios.broadcast_func()
+    Server_IP_list = aios.broadcast_func()
     if Server_IP_list:
 
         for i in range(len(Server_IP_list)):
@@ -31,9 +31,9 @@ def main():
         # print('\n')
 
 
-        for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "w axis1.controller.config.input_mode 1\n")
-        print('\n')
+        # for i in range(len(Server_IP_list)):
+        #     aios.passthrough(Server_IP_list[i], "w axis1.controller.config.input_mode 1\n")
+        # print('\n')
 
         # for i in range(len(Server_IP_list)):
         #     aios.passthrough(Server_IP_list[i], "w axis1.config.general_lockin.current 5\n")
@@ -100,28 +100,28 @@ def main():
         #     aios.passthrough(Server_IP_list[i], "is\n")
         # print('\n')
         
-        for i in range(len(Server_IP_list)):
-            start = time.time()
-            aios.passthrough(Server_IP_list[i], "v 1 1.0 0.0 0.0\n")
-            latency = time.time() - start
-        print('\n')
+        # for i in range(len(Server_IP_list)):
+        #     start = time.time()
+        #     aios.passthrough(Server_IP_list[i], "v 1 1.0 0.0 0.0\n")
+        #     latency = time.time() - start
+        # print('\n')
 
-        print(latency*1000)
+        # print(latency*1000)
         
 
-        time.sleep(2)
+        # time.sleep(2)
 
-        for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "v 1 4.0 0.0 0.0\n")
-        print('\n')
+        # for i in range(len(Server_IP_list)):
+        #     aios.passthrough(Server_IP_list[i], "v 1 4.0 0.0 0.0\n")
+        # print('\n')
 
-        time.sleep(2)
+        # time.sleep(2)
 
-        for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "v 1 8.0 0.0 0.0\n")
-        print('\n')
+        # for i in range(len(Server_IP_list)):
+        #     aios.passthrough(Server_IP_list[i], "v 1 8.0 0.0 0.0\n")
+        # print('\n')
 
-        time.sleep(2)
+        # time.sleep(2)
 
 
         # for i in range(len(Server_IP_list)):
@@ -176,14 +176,14 @@ def main():
         #     aios.passthrough(Server_IP_list[i], "r axis1.controller.error\n")
         # print('\n')
 
-        # for j in range(1000):
-        #     for i in range(len(Server_IP_list)):
-        #         start = time.time()
-        #         aios.passthrough(Server_IP_list[i], "f 1\n")
-        #         latency = time.time() - start
-        #         print(latency*1000)
-        #     print('\n')
-        #     time.sleep(0.01)
+        for j in range(4000):
+            for i in range(len(Server_IP_list)):
+                start = time.time()
+                aios.passthrough(Server_IP_list[i], "r axis1.encoder.count_in_cpr\n")
+                latency = time.time() - start
+                print(latency*1000)
+            print('\n')
+            time.sleep(0.01)
 
 
 
