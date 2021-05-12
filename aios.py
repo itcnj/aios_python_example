@@ -781,12 +781,12 @@ def setCurrent(current, reply_enable,server_ip, motor_number):
 
 # AIOS get count_in_cpr
 # Param: Server IP
-# no return
+# return count_in_cpr
 def getCountInCpr(server_ip):
     data = {
         'method' : 'GET',
         'reqTarget' : '/passthrough',
-        'tx_messages' : 'r axis1.encoder.count_in_cpr\n'
+        'tx_messages' : 'r axis1.encoder.shadow_count\n'
     }
     json_str = json.dumps(data)
     print ("Send JSON Obj:", json_str)
@@ -798,6 +798,53 @@ def getCountInCpr(server_ip):
         count_in_cpr = int(json_obj.get('rx_messages'))
         print("count_in_cpr = %d\n" %(count_in_cpr))
         return count_in_cpr
+    except socket.timeout: # fail after 1 second of no activity
+        print("Didn't receive anymore data! [Timeout]")
+
+# AIOS get ref_distance
+# Param: Server IP
+# return ref_phase
+def getRefDistance(server_ip):
+    data = {
+        'method' : 'GET',
+        'reqTarget' : '/passthrough',
+        'tx_messages' : 'r axis1.encoder.ref_distance\n'
+    }
+    json_str = json.dumps(data)
+    print ("Send JSON Obj:", json_str)
+    s.sendto(str.encode(json_str), (server_ip, PORT_rt))
+    try:
+        data, address = s.recvfrom(1024)
+        print('Server received from {}:{}'.format(address, data.decode('utf-8')))
+        json_obj = json.loads(data.decode('utf-8'))
+        distance = float(json_obj.get('rx_messages'))
+        print("distance = %f\n" %(distance))
+        return distance
+    except socket.timeout: # fail after 1 second of no activity
+        print("Didn't receive anymore data! [Timeout]")
+
+# AIOS set theta_ref
+# Param: Server IP
+# return count_in_cpr shadow_count
+def setThetaRef(server_ip, theta_ref):
+    data = {
+        'method' : 'GET',
+        'reqTarget' : '/passthrough',
+        'tx_messages' : 'ec 1 0.0\n'
+    }
+    tx_messages = 'ec 1 {0:f}\n'.format(theta_ref)
+    data['tx_messages'] = tx_messages
+    json_str = json.dumps(data)
+    print ("Send JSON Obj:", json_str)
+    s.sendto(str.encode(json_str), (server_ip, PORT_rt))
+    try:
+        data, address = s.recvfrom(1024)
+        # print('Server received from {}:{}'.format(address, data.decode('utf-8')))
+        json_obj = json.loads(data.decode('utf-8'))
+        rx_messages = json_obj.get('rx_messages').split(' ',1)
+        count_in_cpr = int(rx_messages[0])
+        shadow_count = int(rx_messages[1])
+        return count_in_cpr, shadow_count
     except socket.timeout: # fail after 1 second of no activity
         print("Didn't receive anymore data! [Timeout]")
 

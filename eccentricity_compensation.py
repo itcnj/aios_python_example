@@ -7,6 +7,18 @@ import matplotlib.pyplot as plt
 Server_IP_list = ['192.168.2.40']
 # Server_IP_list = []
 count_in_cpr_list = []
+shadow_count_list = []
+theta_ref_list = []
+
+cpr = 4000
+theta_ref = 0
+NPP = 21
+n = 128*NPP                                                    # number of positions to be sampled per mechanical rotation.  Multiple of NPP for filtering reasons (see later)
+n2 = 4                                                         # increments between saved samples (for smoothing motion)
+delta = 2*np.pi*NPP/(n*n2)                                     # change in angle between samples
+error_f = []
+error_b = []
+
 
 
 
@@ -14,52 +26,77 @@ def main():
 
     Server_IP_list = aios.broadcast_func()
     if Server_IP_list:
-        for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "w axis1.config.general_lockin.current 2\n")
-        print('\n')
 
         for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "w axis1.config.general_lockin.finish_on_vel 0\n") 
+            aios.passthrough(Server_IP_list[i], "w axis1.requested_state 12\n")  # 7
         print('\n')
 
-        for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "w axis1.config.general_lockin.finish_on_distance 1\n") 
-        print('\n')
+        for j in range(len(Server_IP_list)):
+            aios.setThetaRef(Server_IP_list[j], 0)
+        time.sleep(1)
 
-        for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "w axis1.config.general_lockin.finish_distance 10000\n") # 1600
-        print('\n')
+        global theta_ref
+        global error_f
 
-        for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "w axis1.config.general_lockin.vel 100\n") # 1600
-        print('\n')
-
-        for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "w axis1.config.general_lockin.accel 100\n") # 400
-        print('\n')
-
-        for i in range(len(Server_IP_list)):
-            aios.passthrough(Server_IP_list[i], "w axis1.requested_state 9\n")
-        print('\n')
-
-        for j in range(200):
-            for i in range(len(Server_IP_list)):
+        # rotate forwards
+        for i in range(n):
+            for j in range(n2):
+                theta_ref = theta_ref + delta
                 start = time.time()
-                count_in_cpr = aios.getCountInCpr(Server_IP_list[i])
-                count_in_cpr_list.append(count_in_cpr)
+                for k in range(len(Server_IP_list)):
+                    rx_list = aios.setThetaRef(Server_IP_list[k], theta_ref)
+                    count_in_cpr = rx_list[0]
+                    shadow_count = rx_list[1]
                 latency = time.time() - start
                 print(latency*1000)
-            print('\n')
-            time.sleep(0.01)
+                # time.sleep(0.002)
+            theta_ref_count = (theta_ref*cpr/(2*np.pi*NPP))
+            theta_ref_list.append(theta_ref_count)
+            count_in_cpr_list.append(count_in_cpr)
+            shadow_count_list.append(shadow_count)
+            print(count_in_cpr, shadow_count)
+            error_f.append(theta_ref_count - shadow_count)
+
+        i = 0
+        j = 0
+        # rotate backwards
+        for i in range(n):
+            for j in range(n2):
+                theta_ref = theta_ref - delta
+                start = time.time()
+                for k in range(len(Server_IP_list)):
+                    rx_list = aios.setThetaRef(Server_IP_list[k], theta_ref)
+                    count_in_cpr = rx_list[0]
+                    shadow_count = rx_list[1]
+                latency = time.time() - start
+                print(latency*1000)
+                # time.sleep(0.002)
+            theta_ref_count = (theta_ref*cpr/(2*np.pi*NPP))
+            theta_ref_list.append(theta_ref_count)
+            count_in_cpr_list.append(count_in_cpr)
+            shadow_count_list.append(shadow_count)
+            # print(count_in_cpr, shadow_count)
+            error_b.append(theta_ref_count - shadow_count)
+
+
 
         for i in range(len(Server_IP_list)):
             aios.passthrough(Server_IP_list[i], "w axis1.requested_state 1\n")
         print('\n')
 
-        print(count_in_cpr_list)
+        np.save('error_f.npy',error_f)  
+        np.save('error_b.npy',error_b) 
 
-        plt.plot(count_in_cpr_list)
-        plt.ylabel('count_in_cpr_list')
+        # print(theta_ref_list)
+        # print(shadow_count_list)
+        print(error_f)
+
+        # error = [ref_distance_list[i] - count_in_cpr_list[i] for i in range(len(count_in_cpr_list))]
+        # plt.plot(theta_ref_list)
+        # plt.plot(shadow_count_list)
+        plt.plot(error_f + error_b)
+        # plt.plot(error_b)
+        plt.ylabel('error_f_b')
         plt.show()
 
 
