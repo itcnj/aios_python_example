@@ -18,6 +18,8 @@ n2 = 4                                                         # increments betw
 delta = 2*np.pi*NPP/(n*n2)                                     # change in angle between samples
 error_f = []
 error_b = []
+raw_f = []
+raw_b = []
 
 
 
@@ -52,7 +54,7 @@ def main():
                 # time.sleep(0.002)
             theta_ref_count = (theta_ref*cpr/(2*np.pi*NPP))
             theta_ref_list.append(theta_ref_count)
-            count_in_cpr_list.append(count_in_cpr)
+            raw_f.append(count_in_cpr)
             shadow_count_list.append(shadow_count)
             print(count_in_cpr, shadow_count)
             error_f.append(theta_ref_count - shadow_count)
@@ -73,7 +75,7 @@ def main():
                 # time.sleep(0.002)
             theta_ref_count = (theta_ref*cpr/(2*np.pi*NPP))
             theta_ref_list.append(theta_ref_count)
-            count_in_cpr_list.append(count_in_cpr)
+            raw_b.append(count_in_cpr)
             shadow_count_list.append(shadow_count)
             # print(count_in_cpr, shadow_count)
             error_b.append(theta_ref_count - shadow_count)
@@ -85,14 +87,16 @@ def main():
         print('\n')
 
         np.save('error_f.npy',error_f)  
-        np.save('error_b.npy',error_b) 
+        np.save('error_b.npy',error_b)
+        np.save('raw_f.npy',raw_f)  
+        np.save('raw_b.npy',raw_b) 
 
         # print(theta_ref_list)
         # print(shadow_count_list)
         print(error_f)
 
         # error = [ref_distance_list[i] - count_in_cpr_list[i] for i in range(len(count_in_cpr_list))]
-        # plt.plot(theta_ref_list)
+        plt.plot(raw_f + raw_b)
         # plt.plot(shadow_count_list)
         plt.plot(error_f + error_b)
         # plt.plot(error_b)
