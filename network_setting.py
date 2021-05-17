@@ -4,7 +4,7 @@ import threading
 import numpy as np
 import json
 
-Server_IP_list = []
+Server_IP_list = ['192.168.100.12']
 
 
 def main():

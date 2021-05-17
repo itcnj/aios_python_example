@@ -51,7 +51,7 @@ print(" Sample Number : Lookup Index : Lookup Value\n\r\n\r")
 lut = [0 for i in range(n_lut)]    # Filling with 0
 
 for i in range(n_lut):
-    ind = (int(raw_offset)>>7) + i
+    ind = int(raw_offset/128) + i
     if ind > (n_lut-1):
         ind -= n_lut
     lut[ind] = (error_filt[i*NPP] - mean)
