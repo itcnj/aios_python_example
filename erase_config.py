@@ -15,6 +15,11 @@ def main():
 
         for i in range(len(Server_IP_list)):
             aios.eraseConfig(Server_IP_list[i])
+        
+        time.sleep(1)
+        
+        for i in range(len(Server_IP_list)):    
+            aios.getEncoderInfo(Server_IP_list[i])
 
         print('\n')
 
