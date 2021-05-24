@@ -15,6 +15,7 @@ def moving_average(x, w):
     return np.convolve(x, np.ones(w), 'valid') / w
 
 
+
 error_f = np.load('error_f.npy')
 error_b = np.load('error_b.npy')
 raw_f = np.load('raw_f.npy')
@@ -41,6 +42,13 @@ raw_offset = (raw_f[0] + raw_b[n-1])/2
 raw_b = raw_b[::-1]
 raw = (raw_f + raw_b)/2
 
+for x in range(len(raw)):
+    if 668 <= x <= 672:
+        raw[x] = 0
+    print(x, raw[x])
+
+raw = np.roll(raw,-2000)
+
 print("raw_offset = %d" %(raw_offset))
 
 print("\n\r Encoder non-linearity compensation table\n\r")
@@ -49,7 +57,7 @@ print(" Sample Number : Lookup Index : Lookup Value\n\r\n\r")
 lut = [0 for i in range(n_lut)]    # Filling with 0
 
 for i in range(n_lut):
-    ind = int(float(raw_offset)/31.25) + i
+    ind = int(float(raw_offset)/31.25) + i   # 31.25 = 4000/128
     if ind > (n_lut-1):
         ind -= n_lut
     lut[ind] = (error_filt[i*NPP] - mean)
@@ -63,30 +71,30 @@ offset_2_list = []
 off_interp_list = []
 angle = []
 
+# For test, simulate when this code running in STM32
 for i in range(n):
     raw_ = int(raw[i]/31.25)
     raw_list.append(raw_)
     off_1 = offset_lut[raw_]
-    if raw_+1 < 128: 
-        off_2 = offset_lut[int((raw_+1))]
+    off_2 = offset_lut[int((raw_+1)%128)]                                  # raw_ has no possible larger than 127, while raw_+1 may larger than 127
     offset_1_list.append(off_1)
     offset_2_list.append(off_2)
     off_interp = off_1 + ((off_2 - off_1)*(raw[i] - raw_*31.25)/31.25)     # Interpolate between lookup table entries
     off_interp_list.append(off_interp)
-    angle.append(raw[i] + off_interp)                                              # Correct for nonlinearity with lookup table from calibration
+    angle.append(raw[i] + off_interp)                                      # Correct for nonlinearity with lookup table from calibration
 
 
-print(error_f)
-print(error_b)
 
-# plt.plot(error_f)
-# plt.plot(error_b)
+
+
 # plt.plot(error)
 # error_filt = list(map(int,error_filt))
 # plt.plot(error_filt)
 # plt.plot(lut)
-plt.plot(offset_1_list)
-# plt.plot(offset_2_list)
+plt.plot(raw_list)
+plt.plot(offset_2_list)
 plt.plot(off_interp_list)
 plt.ylabel('error_b')
 plt.show()
+
+
